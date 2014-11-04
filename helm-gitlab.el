@@ -50,7 +50,7 @@
 
 ;; UI
 
-(defface helm-gitlab-title
+(defface helm-gitlab--title
   '((((class color) (background light)) :foreground "red" :weight semi-bold)
     (((class color) (background dark)) :foreground "green" :weight semi-bold))
   "face of post title"
@@ -59,49 +59,72 @@
 
 ;; Core
 
-(defun helm-gitlab-projects-init ()
+(defun helm-gitlab--projects-init ()
   (when (s-blank? gitlab-token-id)
     (gitlab-login gitlab-username gitlab-password))
   (let ((projects (gitlab-list-projects))
         result)
     (mapcar (lambda (p)
-              (list (cons 'page (assoc-default 'web_url p))
-                    (cons 'description (assoc-default 'description p))
-                    (cons 'ssh (assoc-default 'ssh_url_to_repo p))))
+              (cons (format "%s" (propertize (assoc-default 'name p)
+                                             'face
+                                             'helm-gitlab--title))
+                    (list :page (assoc-default 'web_url p)
+                          :name (assoc-default 'name p))))
             projects)))
 
-    ;; (sort (cl-loop with posts = (assoc-default 'items json-res)
-    ;;                for post across posts
-    ;;                for points = (assoc-default 'points post)
-    ;;                for title = (assoc-default 'title post)
-    ;;                for url = (assoc-default 'url post)
-    ;;                for comments = (assoc-default 'commentCount post)
-    ;;                for id = (assoc-default 'id post)
-    ;;                for cand = (format "%s %s (%d comments)"
-    ;;                                   (format "[%d]" points)
-    ;;                                   (propertize title 'face 'helm-hackernews-title)
-    ;;                                   comments)
-    ;;                collect
-    ;;                (cons cand
-    ;;                      (list :url url :points points
-    ;;                            :post-url (format "https://news.ycombinator.com/item?id=%s" id))))
-    ;;       'helm-hackernews-sort-predicate)))
+
+(defun helm-gitlab--project-browse-link (cand)
+  (browse-url (plist-get cand :page)))
+
+(defun helm-gitlab--project-browse-page (cast)
+  (browse-url (plist-get cast :page)))
 
 
-(defvar helm-gitlab-projects-source
+(defvar helm-gitlab--projects-source
   '((name . "Gitlab projects")
-    (candidates . helm-gitlab-projects-init)
-    (action . (("Browse Link" . helm-gitlab-project-browse-link)
-               ("Browse Project Page"  . helm-gitlab-project-browse-page)))
+    (candidates . helm-gitlab--projects-init)
+    (action . (("Browse Link" . helm-gitlab--project-browse-link)
+               ("Browse Project Page"  . helm-gitlab--project-browse-page)))
+    (candidate-number-limit . 9999)))
+
+(defun helm-gitlab--issues-init ()
+  (when (s-blank? gitlab-token-id)
+    (gitlab-login gitlab-username gitlab-password))
+  (let ((issues (gitlab-list-issues))
+        result)
+    (mapcar (lambda (i)
+              (cons (format "%s [%s]"
+                            (propertize (assoc-default 'title i)
+                                        'face
+                                        'helm-gitlab--title)
+                            (assoc-default 'state i))
+                    (list :name (assoc-default 'title i))))
+            issues)))
+
+
+(defun helm-gitlab--issue-browse-link (cand)
+  (browse-url (plist-get cand :name)))
+
+(defvar helm-gitlab--issues-source
+  '((name . "Gitlab issues")
+    (candidates . helm-gitlab--issues-init)
+    (action . (("Browse Link" . helm-gitlab--issue-browse-link)))
     (candidate-number-limit . 9999)))
 
 
 ;; API
 
 ;;;###autoload
-(defun helm-projects ()
+(defun helm-gitlab-projects ()
   (interactive)
-  (helm :sources '(helm-gitlab-projects-source) :buffer "*helm-gitlab*"))
+  (helm :sources '(helm-gitlab--projects-source) :buffer "*helm-gitlab*"))
+
+
+;;;###autoload
+(defun helm-gitlab-issues ()
+  (interactive)
+  (helm :sources '(helm-gitlab--issues-source) :buffer "*helm-gitlab*"))
+
 
 (provide 'helm-gitlab)
 ;;; helm-gitlab.el ends here

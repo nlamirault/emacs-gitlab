@@ -1,0 +1,20 @@
+#!/usr/bin/env emacs --script
+
+(message "Running tests on Emacs %s" emacs-version)
+
+(let ((current-directory (file-name-directory load-file-name)))
+  (setq emacs-gitlab-test-path (expand-file-name "." current-directory))
+  (setq emacs-gitlab-root-path (expand-file-name ".." current-directory)))
+
+(add-to-list 'load-path emacs-gitlab-root-path)
+(add-to-list 'load-path emacs-gitlab-test-path)
+
+(require 'gitlab)
+(require 'gitlab-test-settings)
+(require 'cl)
+
+(dolist (test-file (or argv (directory-files emacs-gitlab-test-path t "-tests.el$")))
+  (load test-file nil t))
+
+;; run tests
+(ert-run-tests-batch-and-exit t)

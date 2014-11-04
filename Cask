@@ -10,6 +10,7 @@
 ;; Basic libraries
 (depends-on "s" "1.9.0")
 (depends-on "f" "0.17.1")
+(depends-on "helm" "1.0")
 (depends-on "request")
 
 ;; Utilities

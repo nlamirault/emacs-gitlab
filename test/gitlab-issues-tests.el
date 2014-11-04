@@ -32,7 +32,7 @@
 (ert-deftest test-list-issues ()
   (with-gitlab-session
    (let ((issues (gitlab-list-issues)))
-     (should (< 0 (length issues)))
+     (should (<= 0 (length issues)))
      (mapcar (lambda (i)
                (should (not (s-blank? (assoc-default 'title i))))
                (should (numberp (assoc-default 'project_id i)))

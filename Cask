@@ -7,15 +7,7 @@
 (package-file "gitlab.el")
 (files "*.el" (:exclude ".dir-locals.el"))
 
-;; Basic libraries
-(depends-on "s" "1.9.0")
-(depends-on "dash" "2.9.0")
 (depends-on "helm" "1.0")
-(depends-on "request" "0.1.0")
-
-;; Utilities
-(depends-on "pkg-info" "0.5")
-
 
 ;; Development
 (development

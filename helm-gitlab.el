@@ -5,7 +5,7 @@
 ;; Version: 0.1.0
 ;; Keywords: gitlab, helm
 
-;; Package-Requires: ((s "1.9.0") (dash "2.9.0") (helm "1.0"))
+;; Package-Requires: ((s "1.9.0") (dash "2.9.0") (helm "1.0") (gitlab "0"))
 
 ;; Copyright (C) 2014 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 

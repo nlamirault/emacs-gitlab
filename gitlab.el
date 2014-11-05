@@ -5,7 +5,7 @@
 ;; Version: 0.1.0
 ;; Keywords: gitlab
 
-;; Package-Requires: ((s "1.9.0") (f "0.17.1") (pkg-info "0.5.0"))
+;; Package-Requires: ((s "1.9.0") (pkg-info "0.5.0"))
 
 ;; Copyright (C) 2014 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
@@ -44,8 +44,6 @@
 ;;; Code:
 
 (require 's)
-(require 'f)
-
 
 ;; Customization
 

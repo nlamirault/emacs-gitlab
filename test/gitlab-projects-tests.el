@@ -35,10 +35,10 @@
      (should (<= 0 (length projects)))
      (message "Projects list : %s" (length projects))
      (mapcar (lambda (p)
-               (should (not (s-blank? (assoc-default 'name p))))
-               (message "Project: %s %s"
-                        (assoc-default 'name p)
-                        (assoc-default 'id p)))
+               ;; (message "Project: %s %s"
+               ;;          (assoc-default 'name p)
+               ;;          (assoc-default 'id p))
+               (should (not (s-blank? (assoc-default 'name p)))))
              projects))))
 
 (ert-deftest test-list-user-projects ()
@@ -46,7 +46,8 @@
    (let ((projects (gitlab-list-owned-projects)))
      (should (< 0 (length projects)))
      (mapcar (lambda (p)
-               (message "%s" (assoc-default 'name p)))
+               ;; (message "%s" (assoc-default 'name p))
+               (should (not (s-blank? (assoc-default 'name p)))))
              projects))))
 
 (ert-deftest test-get-project ()
@@ -62,9 +63,8 @@
    (let ((events (gitlab-list-project-events gitlab-project-id)))
      (should (<= 0 (length events)))
      (mapcar (lambda (e)
-               (should (numberp (assoc-default 'author_id e)))
-               (message "%s"
-                        (assoc-default 'author_id e)))
+               ;; (message "%s" (assoc-default 'author_id e))
+               (should (numberp (assoc-default 'author_id e))))
              events))))
 
 (provide 'gitlab-projects-tests)

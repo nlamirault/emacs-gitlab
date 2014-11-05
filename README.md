@@ -5,6 +5,10 @@
 [![Melpa Status](http://melpa.milkbox.net/packages/emacs-gitlab-badge.svg)](http://melpa.milkbox.net/#/emacs-gitlab)
 [![MELPA Stable](http://stable.melpa.org/packages/emacs-gitlab-badge.svg)](http://stable.melpa.org/#/emacs-gitlab)
 
+`emacs-gitlab` provides :
+* a REST client to the [Gitlab][] API
+* a [Helm][] interface
+
 ## Installation
 
 The recommended way to install ``emacs-gitlab`` is via [MELPA][]:
@@ -18,7 +22,20 @@ or [Cask][]:
 
 ## Usage
 
-(TODO)
+* Setup your Gitlab configurations :
+
+        $ (setq gitlab-host "http://mygitlab.com"
+                gitlab-username "foo"
+                gitlab-password "bar")
+
+* Show user's projects with helm interface:
+
+        $ M-x helm-gitlab-projects
+
+* Show user's issues with helm interface:
+
+        $ M-x helm-gitlab-issues
+
 
 ## Development
 
@@ -77,3 +94,6 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 [MELPA]: http://melpa.milkbox.net/
 [Cask]: http://cask.github.io/
 [Issue tracker]: https://github.com/nlamirault/emacs-gitlab/issues
+
+[Gitlab]: https://www.gitlab.com/
+[Helm]: https://github.com/emacs-helm/helm

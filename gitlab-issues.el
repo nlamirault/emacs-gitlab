@@ -42,6 +42,31 @@ LABELS - Comma-separated list of label names"
     (perform-gitlab-request "issues" params 200)))
 
 
+(defun gitlab--get-issue-uri (project-id issue-id)
+  (s-concat "projects/"
+            (number-to-string project-id)
+            "/issues/"
+            (number-to-string issue-id)))
+
+(defun gitlab-list-project-issues (project-id)
+  "Get a list of project issues.
+
+PROJECT-ID : The ID of a project"
+  (perform-gitlab-request (s-concat "projects/"
+                                    (number-to-string project-id)
+                                    "/issues")
+                          nil
+                          200))
+
+(defun gitlab-get-issue (project-id issue-id)
+  "Gets a single project issue.
+
+PROJECT-ID : The ID of a project
+ISSUE-ID : The ID of a project issue"
+  (perform-gitlab-request (gitlab--get-issue-uri project-id issue-id)
+                          nil
+                          200))
+
 
 (provide 'gitlab-issues)
 ;;; gitlab-issues.el ends here

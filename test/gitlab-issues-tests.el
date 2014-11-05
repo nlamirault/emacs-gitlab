@@ -35,9 +35,27 @@
      (should (<= 0 (length issues)))
      (mapcar (lambda (i)
                (should (not (s-blank? (assoc-default 'title i))))
-               (should (numberp (assoc-default 'project_id i)))
-               (message "%s" (assoc-default 'title i)))
+               (should (numberp (assoc-default 'project_id i))))
+               ;; (message "%s" (assoc-default 'title i)))
              issues))))
+
+(ert-deftest test-list-project-issues ()
+  (with-gitlab-session
+   (let ((issues (gitlab-list-project-issues gitlab-project-id)))
+     (should (<= 0 (length issues)))
+     (mapcar (lambda (i)
+               (should (not (s-blank? (assoc-default 'title i))))
+               (should (not (s-blank? (assoc-default 'state i))))
+               (should (= gitlab-project-id (assoc-default 'project_id i))))
+               ;; (message "%s" (assoc-default 'title i)))
+             issues))))
+
+
+(ert-deftest test-get-single-issue ()
+  (with-gitlab-session
+   (let ((issue (gitlab-get-issue gitlab-project-id gitlab-issue-id)))
+     (should (s-equals? gitlab-issue-title
+                        (assoc-default 'title issue))))))
 
 (provide 'gitlab-issues-tests)
 ;;; gitlab-issues-tests.el ends here

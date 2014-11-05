@@ -9,9 +9,9 @@
 
 ;; Basic libraries
 (depends-on "s" "1.9.0")
-(depends-on "f" "0.17.1")
+(depends-on "dash" "2.9.0")
 (depends-on "helm" "1.0")
-(depends-on "request")
+(depends-on "request" "0.1.0")
 
 ;; Utilities
 (depends-on "pkg-info" "0.5")

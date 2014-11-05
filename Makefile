@@ -13,21 +13,22 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+APP = gitlab
 
 EMACS = emacs
 EMACSFLAGS = -L .
 CASK = cask
-VAGRANT = vagrant
-
-ELS = $(wildcard *.el)
-OBJECTS = $(ELS:.el=.elc)
 
 VERSION=$(shell \
         grep Version gitlab.el \
         |awk -F':' '{print $$2}' \
 	|sed -e "s/[^0-9.]//g")
 
-PACKAGE_NAME = emacs-gitlab-$(VERSION)
+PACKAGE_FOLDER=gitlab-$(VERSION)
+ARCHIVE=$(PACKAGE_FOLDER).tar
+
+ELS = $(wildcard *.el)
+OBJECTS = $(ELS:.el=.elc)
 
 NO_COLOR=\033[0m
 OK_COLOR=\033[32;01m
@@ -37,18 +38,19 @@ WARN_COLOR=\033[33;01m
 all: help
 
 help:
-	@echo -e "$(OK_COLOR)==== emacs-gitlab [$(VERSION)]====$(NO_COLOR)"
-	@echo -e "$(WARN_COLOR)- init$(NO_COLOR)  : initialize development environment"
-	@echo -e "$(WARN_COLOR)- build$(NO_COLOR) : build project"
-	@echo -e "$(WARN_COLOR)- test$(NO_COLOR)  : launch unit tests"
-	@echo -e "$(WARN_COLOR)- clean$(NO_COLOR) : cleanup"
+	@echo -e "$(OK_COLOR)==== $(APP) [$(VERSION)]====$(NO_COLOR)"
+	@echo -e "$(WARN_COLOR)- init$(NO_COLOR)    : initialize development environment"
+	@echo -e "$(WARN_COLOR)- build$(NO_COLOR)   : build project"
+	@echo -e "$(WARN_COLOR)- test$(NO_COLOR)    : launch unit tests"
+	@echo -e "$(WARN_COLOR)- clean$(NO_COLOR)   : cleanup"
+	@echo -e "$(WARN_COLOR)- package$(NO_COLOR) : packaging"
 
 init:
-	@echo -e "$(OK_COLOR)[emacs-gitlab] Initialize environment$(NO_COLOR)"
+	@echo -e "$(OK_COLOR)[$(APP)] Initialize environment$(NO_COLOR)"
 	@$(CASK) --dev install
 
 elpa:
-	@echo -e "$(OK_COLOR)[emacs-gitlab] Build$(NO_COLOR)"
+	@echo -e "$(OK_COLOR)[$(APP)] Build$(NO_COLOR)"
 	@$(CASK) install
 	@$(CASK) update
 	@touch $@
@@ -57,14 +59,22 @@ elpa:
 build : elpa $(OBJECTS)
 
 test: build
-	@echo -e "$(OK_COLOR)[emacs-gitlab] Unit tests$(NO_COLOR)"
+	@echo -e "$(OK_COLOR)[$(APP)] Unit tests$(NO_COLOR)"
 	$(CASK) exec $(EMACS) --no-site-file --no-site-lisp --batch \
 		$(EMACSFLAGS) \
 		-l test/run-tests
 
-package:
-	@echo -e "$(OK_COLOR)[emacs-gitlab] Packaging$(NO_COLOR)"
+pkg-file:
+	$(CASK) pkg-file
+
+pkg-el: pkg-file
 	$(CASK) package
+
+package: clean pkg-el
+	@echo -e "$(OK_COLOR)[$(APP)] Packaging$(NO_COLOR)"
+	cp dist/$(ARCHIVE) .
+	gzip $(ARCHIVE)
+	rm -fr dist
 
 .PHONY: ci
 ci : build
@@ -72,8 +82,8 @@ ci : build
 
 .PHONY: clean
 clean :
-	@echo -e "$(OK_COLOR)[emacs-gitlab] Cleanup$(NO_COLOR)"
-	@rm -fr $(OBJECTS) elpa
+	@echo -e "$(OK_COLOR)[$(APP)] Cleanup$(NO_COLOR)"
+	@rm -fr $(OBJECTS) elpa $(ARCHIVE).gz
 
 reset : clean
 	@rm -rf .cask # Clean packages installed for development

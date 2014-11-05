@@ -10,4 +10,4 @@ packages/*
 TAGS
 .DS_STORE
 dist
-test/gitlab-test-settings.el
+test/gitlab-test-settings*

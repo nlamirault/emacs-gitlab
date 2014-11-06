@@ -2,8 +2,8 @@
 
 [![License GPL 3][badge-license]][LICENSE]
 [![travis][badge-travis]][travis]
-[![Melpa Status](http://melpa.milkbox.net/packages/emacs-gitlab-badge.svg)](http://melpa.milkbox.net/#/emacs-gitlab)
-[![MELPA Stable](http://stable.melpa.org/packages/emacs-gitlab-badge.svg)](http://stable.melpa.org/#/emacs-gitlab)
+[![Melpa Status](http://melpa.milkbox.net/packages/gitlab-badge.svg)](http://melpa.milkbox.net/#/gitlab)
+[![MELPA Stable](http://stable.melpa.org/packages/gitlab-badge.svg)](http://stable.melpa.org/#/gitlab)
 
 `emacs-gitlab` provides :
 * a REST client to the [Gitlab][] API

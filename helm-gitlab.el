@@ -47,6 +47,7 @@
 ;; Gitlab library
 
 (require 'gitlab)
+(require 'gitlab-ui)
 
 ;; UI
 ;; ----
@@ -140,7 +141,7 @@
   "List Gitlab projects using Helm interface."
   (interactive)
   (helm :sources '(helm-gitlab--projects-source)
-        :buffer "*helm-gitlab*"))
+        :buffer helm-gitlab--buffer-name))
 
 
 ;;;###autoload
@@ -148,7 +149,7 @@
   "List Gitlab issues using Helm interface."
   (interactive)
   (helm :sources '(helm-gitlab--issues-source)
-        :buffer "*helm-gitlab*"))
+        :buffer helm-gitlab--buffer-name))
 
 
 (provide 'helm-gitlab)

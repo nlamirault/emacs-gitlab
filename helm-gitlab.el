@@ -70,10 +70,32 @@
               "/issues/"
               (number-to-string issue-id))))
 
-
-
 ;; Core
 ;; ------
+
+(defun helm-gitlab--project-issues-init (project-id)
+  (when (s-blank? gitlab-token-id)
+    (gitlab-login gitlab-username gitlab-password))
+  (let ((issues (gitlab-list-project-issues project-id)))
+    (mapcar (lambda (i)
+              (cons (format "[%s] %s [%s]"
+                            (assoc-default 'id i)
+                            (propertize (assoc-default 'title i)
+                                        'face
+                                        'helm-gitlab--title)
+                            (assoc-default 'state i))
+                    (list :project-id (assoc-default 'project_id i)
+                          :issue-id (assoc-default 'id i)
+                          :name (assoc-default 'title i))))
+            issues)))
+
+
+(defvar helm-gitlab--project-issues-source
+  '((name . "Gitlab project issues")
+    (candidates . helm-gitlab--project-issues-init)
+    (action . (("Browse Link" . helm-gitlab--issue-browse-link)
+               ("Show issue" . helm-gitlab--issue-show)))))
+
 
 (defun helm-gitlab--projects-init ()
   (when (s-blank? gitlab-token-id)
@@ -84,12 +106,9 @@
                                              'face
                                              'helm-gitlab--title))
                     (list :page (assoc-default 'web_url p)
-                          :name (assoc-default 'name p))))
+                          :name (assoc-default 'name p)
+                          :project-id (assoc-default 'id p))))
             projects)))
-
-
-(defun helm-gitlab--project-browse-link (cand)
-  (browse-url (plist-get cand :page)))
 
 
 (defun helm-gitlab--project-browse-page (cast)
@@ -99,9 +118,22 @@
 (defvar helm-gitlab--projects-source
   '((name . "Gitlab projects")
     (candidates . helm-gitlab--projects-init)
-    (action . (("Browse Link" . helm-gitlab--project-browse-link)
-               ("Browse Project Page"  . helm-gitlab--project-browse-page)))
+    (action . (("Browse project page" . helm-gitlab--project-browse-page)
+               ("Issues" . helm-gitlab--project-issues)
+               ("Members" . helm-gitlab--project-members)
+               ))
     (candidate-number-limit . 9999)))
+
+
+(defun helm-gitlab--issue-show (issue)
+  (let ((buf (get-buffer-create helm-gitlab--buffer-name)))
+    (helm-switch-to-buffer buf)
+    (let ((inhibit-read-only t))
+      (erase-buffer)
+      (save-excursion
+        (gitlab-mode)
+        issue))))
+
 
 
 (defun helm-gitlab--issues-init ()
@@ -130,8 +162,10 @@
 (defvar helm-gitlab--issues-source
   '((name . "Gitlab issues")
     (candidates . helm-gitlab--issues-init)
-    (action . (("Browse Link" . helm-gitlab--issue-browse-link)))
-    (candidate-number-limit . 9999)))
+    (action . (("Browse Link" . helm-gitlab--issue-browse-link)
+               ("Show issue" . helm-gitlab--issue-show)))))
+
+
 
 
 ;; API
@@ -145,12 +179,22 @@
 
 
 ;;;###autoload
+(defun helm-gitlab-project-issues ()
+  "List Gitlab projects using Helm interface."
+  (interactive "P")
+  (let ((query (read-string "Project : ")))
+    (helm :sources helm-gitlab--project-issues-source
+          :prompt "Project : "
+          :input query
+          :buffer helm-gitlab--buffer-name)))
+
+
+;;;###autoload
 (defun helm-gitlab-issues ()
   "List Gitlab issues using Helm interface."
   (interactive)
   (helm :sources '(helm-gitlab--issues-source)
         :buffer helm-gitlab--buffer-name))
-
 
 (provide 'helm-gitlab)
 ;;; helm-gitlab.el ends here

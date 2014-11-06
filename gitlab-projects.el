@@ -47,6 +47,23 @@
                           nil
                           200))
 
+(defun gitlab-search-projects (name)
+  "Search for projects by name which are accessible to the authenticated user.
+NAME is a string contained in the project name."
+  (perform-gitlab-request (s-concat "projects/search/" name)
+                          nil
+                          200))
+
+
+(defun gitlab-list-project-members (project-id)
+  "Get a list of a project's team members.
+PROJECT-ID is The ID or NAMESPACE/PROJECT_NAME of a project."
+  (perform-gitlab-request (s-concat "projects/"
+                                    (number-to-string project-id)
+                                    "/members")
+                          nil
+                          200))
+
 
 (defun gitlab-list-project-events (project-id)
   "Get the events for the specified project, identified by PROJECT-ID.

@@ -64,6 +64,14 @@ test: build
 		$(EMACSFLAGS) \
 		-l test/run-tests
 
+.PHONY: clean
+clean :
+	@echo -e "$(OK_COLOR)[$(APP)] Cleanup$(NO_COLOR)"
+	@rm -fr $(OBJECTS) elpa $(ARCHIVE).gz
+
+reset : clean
+	@rm -rf .cask
+
 pkg-file:
 	$(CASK) pkg-file
 
@@ -79,14 +87,6 @@ package: clean pkg-el
 .PHONY: ci
 ci : build
 	@${CASK} exec ert-runner --no-win < /dev/tty
-
-.PHONY: clean
-clean :
-	@echo -e "$(OK_COLOR)[$(APP)] Cleanup$(NO_COLOR)"
-	@rm -fr $(OBJECTS) elpa $(ARCHIVE).gz
-
-reset : clean
-	@rm -rf .cask # Clean packages installed for development
 
 %.elc : %.el
 	@$(CASK) exec $(EMACS) --no-site-file --no-site-lisp --batch \

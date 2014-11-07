@@ -24,7 +24,7 @@ VERSION=$(shell \
         |awk -F':' '{print $$2}' \
 	|sed -e "s/[^0-9.]//g")
 
-PACKAGE_FOLDER=gitlab-$(VERSION)
+PACKAGE_FOLDER=$(APP)-$(VERSION)
 ARCHIVE=$(PACKAGE_FOLDER).tar
 
 ELS = $(wildcard *.el)

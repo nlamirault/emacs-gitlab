@@ -182,11 +182,9 @@
 (defun helm-gitlab-project-issues ()
   "List Gitlab projects using Helm interface."
   (interactive "P")
-  (let ((query (read-string "Project : ")))
-    (helm :sources helm-gitlab--project-issues-source
-          :prompt "Project : "
-          :input query
-          :buffer helm-gitlab--buffer-name)))
+  (helm :sources helm-gitlab--project-issues-source
+        :prompt "Project : "
+        :buffer helm-gitlab--buffer-name))
 
 
 ;;;###autoload

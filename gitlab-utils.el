@@ -55,6 +55,7 @@ Defaults to `error'."
         (when message (put name 'error-message message))))))
 
 (define-error 'gitlab-error "Gitlab error")
+
 (define-error 'gitlab-http-error "HTTP Error" 'gitlab-error)
 
 
@@ -118,6 +119,8 @@ Defaults to `error'."
 ;;        (signal 'gitlab-http-error
 ;;                (list (request-response-status-code response)
 ;;                      (request-response-data response)))))))
+
+
 
 
 (provide 'gitlab-utils)

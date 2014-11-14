@@ -47,6 +47,13 @@ PASSWORD is a valid password."
                (list (request-response-status-code response)
                      (request-response-data response)))))))
 
+;; FIXME
+;; (defmacro with-gitlab-auth (&rest body)
+;;   "Macro which check authentication token.
+;; If not, perform a request to Gitlab to login. Then executes BODY."
+;;   (when (s-blank? gitlab-token-id)
+;;     (gitlab-login gitlab-username gitlab-password)
+;;     ,@body))
 
 
 (provide 'gitlab-session)

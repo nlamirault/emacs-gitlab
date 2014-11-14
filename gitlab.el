@@ -60,6 +60,7 @@
 (require 'gitlab-session)
 (require 'gitlab-projects)
 (require 'gitlab-issues)
+(require 'gitlab-mode)
 
 
 ;;;###autoload

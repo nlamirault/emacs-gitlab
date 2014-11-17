@@ -25,9 +25,20 @@
 
 (defmacro with-gitlab-session (&rest body)
   `(progn
-     (gitlab-login gitlab-username gitlab-password)
+     (gitlab-login)
      ,@body
      (setq gitlab-token-id nil)))
+
+
+(defun gitlab-project-id ()
+  (getenv "GITLAB_PROJECT_ID"))
+
+(defun gitlab-project-name ()
+  (getenv "GITLAB_PROJECT_NAME"))
+
+(defun gitlab-project-description ()
+  (getenv "GITLAB_PROJECT_DESC"))
+
 
 (provide 'gitlab-test-utils)
 ;;; gitlab-test-utils.el ends here

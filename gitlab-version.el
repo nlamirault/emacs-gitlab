@@ -25,16 +25,16 @@
 (require 'pkg-info)
 
 
-(defun emacs-gitlab-library-version ()
+(defun gitlab--library-version ()
   "Get the version in the emacs-gitlab client header."
-  (-when-let (version (pkg-info-defining-library-version 'emacs-gitlab))
+  (-when-let (version (pkg-info-library-version 'gitlab))
     (pkg-info-format-version version)))
 
-(defun emacs-gitlab-package-version ()
-  "Get the package version of emacs-gitlab.
-This is the version number of the installed emacs-gitlab package."
-  (-when-let (version (pkg-info-package-version 'emacs-gitlab-mode))
-    (pkg-info-format-version version)))
+;; (defun gitlab--package-version ()
+;;   "Get the package version of emacs-gitlab.
+;; This is the version number of the installed emacs-gitlab package."
+;;   (-when-let (version (pkg-info-package-version 'emacs-gitlab-mode))
+;;     (pkg-info-format-version version)))
 
 
 (provide 'gitlab-version)

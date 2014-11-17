@@ -1,4 +1,4 @@
-;;; gitlab-session-tests.el --- Tests for Gitlab authentification
+;;; gitlab-version-test.el --- Tests for version information
 
 ;; Copyright (C) Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
@@ -21,13 +21,11 @@
 
 ;;; Code:
 
-(require 'gitlab)
+(require 'pkg-info)
 
-(ert-deftest test-open-session ()
-  (let ((id (gitlab-login gitlab-username gitlab-password)))
-    (message "[gitlab] Session ID: %s" id)
-    (should (not (s-blank? id)))
-    (should (not (s-blank? gitlab-token-id)))))
+(ert-deftest gitlab-library-version ()
+  (should (string= "0.1.0" (gitlab--library-version))))
 
-(provide 'gitlab-session-tests)
-;;; gitlab-session-tests.el ends here
+
+(provide 'gitlab-version-test)
+;;; gitlab-version-test.el ends here

@@ -36,6 +36,27 @@
 (defconst gitlab-api-version "v3"
   "The Gitlab API version.")
 
+(defun gitlab--get-host ()
+  "Retrieve the Gitlab host.
+Use `gitlab-host' or GITLAB_HOST environment variable"
+  (if gitlab-host
+      gitlab-host
+    (getenv "GITLAB_HOST")))
+
+(defun gitlab--get-username ()
+  "Retrieve the gitlab username.
+Use `gitlab-username' or GITLAB_USERNAME environment variable"
+  (if gitlab-username
+      gitlab-username
+    (getenv "GITLAB_USERNAME")))
+
+(defun gitlab--get-password ()
+  "Retrieve the Gitlab password.
+Use `gitlab-password' or GITLAB_PASSWORD environment variable"
+  (if gitlab-password
+      gitlab-password
+      (getenv "GITLAB_PASSWORD")))
+
 
 (provide 'gitlab-api)
 ;;; gitlab-api.el ends here

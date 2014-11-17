@@ -26,10 +26,12 @@
 ;;; Code:
 
 (require 'browse-url)
+(require 'tabulated-list)
 
 ;; Gitlab library
 
-(require 'gitlab)
+(require 'gitlab-projects)
+(require 'gitlab-issues)
 
 
 ;; Core

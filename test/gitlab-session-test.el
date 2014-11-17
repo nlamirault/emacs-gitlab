@@ -1,4 +1,4 @@
-;;; emacs-gitlab-version-tests.el --- Tests for version information
+;;; gitlab-session-test.el --- Tests for Gitlab authentification
 
 ;; Copyright (C) Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
@@ -23,17 +23,11 @@
 
 (require 'gitlab)
 
-(ert-deftest emacs-gitlab-mode-library-version ()
-  :expected-result (if (executable-find "cask") :passed :failed)
-  ;;  The default directory must end with a slash
-  (let* ((cask-version (car (process-lines "cask" "version")))
-	 ;;(lib-version (emacs-gitlab-mode-library-version)))
-	 )
-    ;;(message "Emacs-Gitlab.el : %s" lib-version)
-    (message "emacs-gitlab Cask version: %s" cask-version)
-    ;;(should (string= version (emacs-gitlab-mode-library-version)))))
-    (should (string= "0.1.0" cask-version))))
+(ert-deftest test-open-session ()
+  (let ((id (gitlab-login)))
+    (message "[gitlab] Session ID: %s" id)
+    (should (not (s-blank? id)))
+    (should (not (s-blank? gitlab-token-id)))))
 
-
-(provide 'emacs-gitlab-version-test)
-;;; emacs-gitlab-version-tests.el ends here
+(provide 'gitlab-session-test)
+;;; gitlab-session-test.el ends here

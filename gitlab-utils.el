@@ -64,12 +64,13 @@ Defaults to `error'."
 (defun gitlab--get-rest-uri (uri)
   "Retrieve the Gitlab API complete url using the API version.
 `URI` is the api path."
-  (if gitlab-host
-      (s-concat gitlab-host "/api/" gitlab-api-version "/" uri)
+  (if (gitlab--get-host)
+      (s-concat (gitlab--get-host) "/api/" gitlab-api-version "/" uri)
     (error (signal 'gitlab-error '("Gitlab host unknown.")))))
 
 
 (defun gitlab--get-headers ()
+  "Return the HTTP headers for Gitlab API."
   ;;(if (not (s-blank? gitlab-token-id))
   (list (cons "PRIVATE-TOKEN" gitlab-token-id)
         (cons "connection" "close")))
@@ -119,8 +120,6 @@ Defaults to `error'."
 ;;        (signal 'gitlab-http-error
 ;;                (list (request-response-status-code response)
 ;;                      (request-response-data response)))))))
-
-
 
 
 (provide 'gitlab-utils)

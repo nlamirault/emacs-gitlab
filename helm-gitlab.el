@@ -46,7 +46,10 @@
 
 ;; Gitlab library
 
-(require 'gitlab)
+(require 'gitlab-api)
+(require 'gitlab-session)
+(require 'gitlab-projects)
+(require 'gitlab-issues)
 (require 'gitlab-ui)
 
 ;; UI
@@ -75,7 +78,7 @@
 
 (defun helm-gitlab--project-issues-init (project-id)
   (when (s-blank? gitlab-token-id)
-    (gitlab-login gitlab-username gitlab-password))
+    (gitlab-login))
   (let ((issues (gitlab-list-project-issues project-id)))
     (mapcar (lambda (i)
               (cons (format "[%s] %s [%s]"
@@ -99,7 +102,7 @@
 
 (defun helm-gitlab--projects-init ()
   (when (s-blank? gitlab-token-id)
-    (gitlab-login gitlab-username gitlab-password))
+    (gitlab-login))
   (let ((projects (gitlab-list-projects)))
     (mapcar (lambda (p)
               (cons (format "%s" (propertize (assoc-default 'name p)
@@ -138,7 +141,7 @@
 
 (defun helm-gitlab--issues-init ()
   (when (s-blank? gitlab-token-id)
-    (gitlab-login gitlab-username gitlab-password))
+    (gitlab-login))
   (let ((issues (gitlab-list-issues)))
     (mapcar (lambda (i)
               (cons (format "[%s] %s [%s]"

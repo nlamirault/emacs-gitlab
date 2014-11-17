@@ -2,8 +2,11 @@
 
 [![License GPL 3][badge-license]][LICENSE]
 [![travis][badge-travis]][travis]
+[![drone][badge-drone]][drone]
 [![Melpa Status](http://melpa.milkbox.net/packages/gitlab-badge.svg)](http://melpa.milkbox.net/#/gitlab)
 [![MELPA Stable](http://stable.melpa.org/packages/gitlab-badge.svg)](http://stable.melpa.org/#/gitlab)
+[![Coverage Status](https://coveralls.io/repos/nlamirault/emacs-gitlab/badge.png)](https://coveralls.io/r/nlamirault/emacs-gitlab)
+
 
 `emacs-gitlab` provides :
 * a REST client to the [Gitlab][] API
@@ -51,14 +54,14 @@ management. Install it and retrieve dependencies :
 
 ### Tests
 
-* Edit ``test/gitlab-test-settings.el``, and setup your Gitlab informations:
+* Setup your Gitlab informations :
 
-        (require 'gitlab)
-        (setq gitlab-host "http://gitlab.foo.com"
-              gitlab-username "foo"
-              gitlab-password "bar")
-        (provide 'gitlab-test-settings)
-
+        $ export GITLAB_HOST="http://gitlab.foo.com"
+        $ export GITLAB_USERNAME="foo"
+        $ export GITLAB_PASSWORD="bar"
+        $ export GITLAB_PROJECT_ID="11111"
+        $ export GITLAB_PROJECT_NAME="myproject"
+        $ export GITLAB_PROJECT_DESC="a description"
 
 * Launch unit tests :
 
@@ -90,6 +93,8 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 [LICENSE]: https://github.com/nlamirault/emacs-gitlab/blob/master/LICENSE
 [travis]: https://travis-ci.org/nlamirault/emacs-gitlab
 [badge-travis]: http://img.shields.io/travis/nlamirault/emacs-gitlab.svg?style=flat
+[badge-drone]: https://drone.io/github.com/nlamirault/emacs-gitlab/status.png
+[drone]: https://drone.io/github.com/nlamirault/emacs-gitlab/latest
 [GNU Emacs]: https://www.gnu.org/software/emacs/
 [MELPA]: http://melpa.milkbox.net/
 [Cask]: http://cask.github.io/

@@ -27,17 +27,16 @@
 (require 'gitlab-utils)
 
 
-;;;###autoload
-(defun gitlab-login (username password)
-  "Open a session.
-If it works, return the private token to perform HTTP request to Gitlab.
 
-USERNAME is the login of user.
-PASSWORD is a valid password."
+;;;###autoload
+(defun gitlab-login ()
+  "Open a session.
+If it works, return the private token to perform HTTP request to Gitlab."
   (let ((response
-         (gitlab--perform-post-request "session"
-                                       (list (cons "login" username)
-                                             (cons "password" password)))))
+         (gitlab--perform-post-request
+          "session"
+          (list (cons "login" (gitlab--get-username))
+                (cons "password" (gitlab--get-password))))))
     (if (= 201 (request-response-status-code response))
         (let ((id (assoc-default 'private_token
                                  (request-response-data response))))
@@ -52,7 +51,7 @@ PASSWORD is a valid password."
 ;;   "Macro which check authentication token.
 ;; If not, perform a request to Gitlab to login. Then executes BODY."
 ;;   (when (s-blank? gitlab-token-id)
-;;     (gitlab-login gitlab-username gitlab-password)
+;;     (gitlab-login)
 ;;     ,@body))
 
 

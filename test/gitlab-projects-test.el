@@ -1,4 +1,4 @@
-;;; gitlab-projects-tests.el --- Tests for Gitlab projects API
+;;; gitlab-projects-test.el --- Tests for Gitlab projects API
 
 ;; Copyright (C) Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
@@ -33,11 +33,11 @@
   (with-gitlab-session
    (let ((projects (gitlab-list-projects)))
      (should (<= 0 (length projects)))
-     (message "Projects list : %s" (length projects))
+     ;;(message "Projects list : %s" (length projects))
      (mapcar (lambda (p)
-               ;; (message "Project: %s %s"
-               ;;          (assoc-default 'name p)
-               ;;          (assoc-default 'id p))
+               (message "Project: %s %s"
+                        (assoc-default 'name p)
+                        (assoc-default 'id p))
                (should (not (s-blank? (assoc-default 'name p)))))
              projects))))
 
@@ -52,20 +52,20 @@
 
 (ert-deftest test-get-project ()
   (with-gitlab-session
-   (let ((project (gitlab-get-project gitlab-project-id)))
-     (should (s-equals? gitlab-project-name
+   (let ((project (gitlab-get-project (gitlab-project-id))))
+     (should (s-equals? (gitlab-project-name)
                         (assoc-default 'name project)))
-     (should (s-equals? gitlab-project-description
+     (should (s-equals? (gitlab-project-description)
                         (assoc-default 'description project))))))
 
 (ert-deftest test-list-project-events ()
   (with-gitlab-session
-   (let ((events (gitlab-list-project-events gitlab-project-id)))
+   (let ((events (gitlab-list-project-events (gitlab-project-id))))
      (should (<= 0 (length events)))
      (mapcar (lambda (e)
                ;; (message "%s" (assoc-default 'author_id e))
                (should (numberp (assoc-default 'author_id e))))
              events))))
 
-(provide 'gitlab-projects-tests)
-;;; gitlab-projects-tests.el ends here
+(provide 'gitlab-project-test)
+;;; gitlab-projects-test.el ends here

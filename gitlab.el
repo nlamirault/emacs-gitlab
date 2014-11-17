@@ -74,19 +74,12 @@ If the version number could not be determined, signal an error,
 if called interactively, or if SHOW-VERSION is non-nil, otherwise
 just return nil."
   (interactive (list (not (or executing-kbd-macro noninteractive))))
-  (let* ((lib-version (emacs-gitlab-library-version))
-         (pkg-version (emacs-gitlab-package-version))
-         (version (cond
-                   ((and lib-version pkg-version
-                         (not (string= lib-version pkg-version)))
-                    (format "%s (package: %s)" lib-version pkg-version))
-                   ((or pkg-version lib-version)
-                    (format "%s" (or pkg-version lib-version))))))
-    (when show-version
-      (unless version
-        (error "Could not find out emacs-gitlab version"))
-      (message "emacs-gitlab %s" version))
+  (let* ((version (gitlab--library-version)))
+    (unless version
+      (error "Could not find out emacs-gitlab version"))
+    (message "emacs-travis %s" version)
     version))
+
 
 
 (provide 'gitlab)

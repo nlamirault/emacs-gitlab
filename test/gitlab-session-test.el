@@ -25,7 +25,7 @@
 
 (ert-deftest test-open-session ()
   (let ((id (gitlab-login)))
-    (message "[gitlab] Session ID: %s" id)
+    ;; (message "[gitlab] Session ID: %s" id)
     (should (not (s-blank? id)))
     (should (not (s-blank? gitlab-token-id)))))
 

@@ -53,6 +53,9 @@
 (ert-deftest test-get-project ()
   (with-gitlab-session
    (let ((project (gitlab-get-project (gitlab-project-id))))
+     (message "Project : %s %s"
+              (assoc-default 'name project)
+              (assoc-default 'description project))
      (should (s-equals? (gitlab-project-name)
                         (assoc-default 'name project)))
      (should (s-equals? (gitlab-project-description)

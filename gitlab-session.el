@@ -1,6 +1,6 @@
 ;;; gitlab-session.el --- Session API
 
-;; Copyright (C) 2014 Nicolas Lamirault <nicolas.lamirault@gmail.com>
+;; Copyright (C) 2014, 2015 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License
@@ -38,9 +38,11 @@ If it works, return the private token to perform HTTP request to Gitlab."
           (list (cons "login" (gitlab--get-username))
                 (cons "password" (gitlab--get-password))))))
     (if (= 201 (request-response-status-code response))
-        (let ((id (assoc-default 'private_token
-                                 (request-response-data response))))
-          (setq gitlab-token-id id))
+        (progn
+          (message "Set Gitlab TokenID")
+          (let ((id (assoc-default 'private_token
+                                   (request-response-data response))))
+            (setq gitlab-token-id id)))
       (error
        (signal 'gitlab-http-error
                (list (request-response-status-code response)

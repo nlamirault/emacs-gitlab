@@ -29,7 +29,8 @@ or [Cask][]:
 
         $ (setq gitlab-host "http://mygitlab.com"
                 gitlab-username "foo"
-                gitlab-token-id "...")
+                gitlab-password "bar"
+                gitlab-token-id "xxxxxxxxxxxx")
 
 To generate private ``gitlab-token-id`` run:
 
@@ -66,9 +67,12 @@ management. Install it and retrieve dependencies :
         $ export GITLAB_HOST="http://gitlab.foo.com"
         $ export GITLAB_USERNAME="foo"
         $ export GITLAB_PASSWORD="bar"
-        $ export GITLAB_PROJECT_ID="11111"
+        $ export GITLAB_TOKEN_ID="xxxxxxxxxxxxxx"
+        $ export GITLAB_PROJECT_ID="111222"
         $ export GITLAB_PROJECT_NAME="myproject"
-        $ export GITLAB_PROJECT_DESC="a description"
+        $ export GITLAB_PROJECT_DESCRIPTION="a project description"
+        $ export GITLAB_ISSUE_ID="1"
+        $ export GITLAB_ISSUE_TITLE="the issue title"
 
 * Launch unit tests :
 

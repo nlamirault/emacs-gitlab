@@ -1,6 +1,6 @@
 ;;; gitlab-issues.el --- Issues API
 
-;; Copyright (C) 2014 Nicolas Lamirault <nicolas.lamirault@gmail.com>
+;; Copyright (C) 2014, 2015 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License
@@ -44,16 +44,19 @@ LABELS - Comma-separated list of label names"
 
 (defun gitlab--get-issue-uri (project-id issue-id)
   (s-concat "projects/"
-            (number-to-string project-id)
+            ;;(number-to-string project-id)
+            project-id
             "/issues/"
-            (number-to-string issue-id)))
+            ;; (number-to-string issue-id)))
+            issue-id))
 
 (defun gitlab-list-project-issues (project-id)
   "Get a list of project issues.
 
 PROJECT-ID : The ID of a project"
   (perform-gitlab-request (s-concat "projects/"
-                                    (number-to-string project-id)
+                                    ;;(number-to-string project-id)
+                                    project-id
                                     "/issues")
                           nil
                           200))

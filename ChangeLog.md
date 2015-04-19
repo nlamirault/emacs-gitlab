@@ -2,6 +2,7 @@
 
 ## Version 0.3 (IN PROGRESS)
 
+- ``#8``: Invalid URL for issue project 
 - Refactoring unit tests (use [ert-runner][] and [overseer][])
 - ``#7``: Fixed multiline descriptions breaking tabulated view (Thanks [marcinant][])
 - ``#4``: FIX Documentation (Thanks [marcinant][])

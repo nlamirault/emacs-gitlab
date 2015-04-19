@@ -14,13 +14,13 @@
 
 ## Installation
 
-The recommended way to install ``emacs-gitlab`` is via [MELPA][]:
+The recommended way to install ``gitlab`` is via [MELPA][]:
 
-    M-x package-install emacs-gitlab
+    M-x package-install gitlab
 
 or [Cask][]:
 
-	(depends-on "emacs-gitlab")
+	(depends-on "gitlab")
 
 
 ## Usage

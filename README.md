@@ -8,15 +8,15 @@
 [![Coverage Status](https://coveralls.io/repos/nlamirault/emacs-gitlab/badge.png)](https://coveralls.io/r/nlamirault/emacs-gitlab)
 
 
-`emacs-gitlab` provides :
+Emacs package `gitlab` provides :
 * a REST client to the [Gitlab][] API
 * a [Helm][] interface
 
 ## Installation
 
-The recommended way to install ``emacs-gitlab`` is via [MELPA][]:
+The recommended way to install ``gitlab`` is via [MELPA][]:
 
-    M-x package-install emacs-gitlab
+    M-x package-install gitlab
 
 or [Cask][]:
 
@@ -29,7 +29,14 @@ or [Cask][]:
 
         $ (setq gitlab-host "http://mygitlab.com"
                 gitlab-username "foo"
-                gitlab-password "bar")
+                gitlab-token-id "...")
+
+To generate private ``gitlab-token-id`` run:
+
+```
+$ curl http://yourgitlabhost/api/v3/session/ --data-urlencode 'login=yourUserName' --data-urlencode 'password=yourPassword'
+```
+
 
 * Show user's projects with helm interface:
 

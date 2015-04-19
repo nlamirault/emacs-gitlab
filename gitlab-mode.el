@@ -70,9 +70,8 @@
                             (assoc-default 'name p)
                             (assoc-default 'name owner)
                             (assoc-default 'name namespace)
-                            (assoc-default 'description p)))))
+                            (replace-regexp-in-string "\^M\\|\n" " " (assoc-default 'description p))))))
           projects))
-
 
 ;; Issues
 

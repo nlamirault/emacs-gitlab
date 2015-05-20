@@ -43,7 +43,9 @@
 (defun gitlab-get-project (project-id)
   "Get a specific project, identified by PROJECT-ID."
   (perform-gitlab-request "GET"
-                          (format "projects/%s" project-id)
+                          (format "projects/%s"
+                                  (url-hexify-string
+                                   (format "%s"project-id)))
                           nil
                           200))
 
@@ -60,14 +62,18 @@ NAME is a string contained in the project name."
   "Get a list of a project's team members.
 PROJECT-ID is The ID or NAMESPACE/PROJECT_NAME of a project."
   (perform-gitlab-request "GET"
-                          (format "projects/%s/members" project-id)
+                          (format "projects/%s/members"
+                                  (url-hexify-string
+                                   (format "%s" project-id)))
                           nil
                           200))
 
 (defun gitlab-add-project (project-name)
   "Add a specific project, identified by PROJECT-NAME."
   (perform-gitlab-request "POST"
-                          (format "projects/%s" project-id)
+                          (format "projects/%s"
+                                  (url-hexify-string
+                                   (format "%s" project-id)))
                           nil
                           201))
 
@@ -75,7 +81,9 @@ PROJECT-ID is The ID or NAMESPACE/PROJECT_NAME of a project."
   "Get the events for the specified project, identified by PROJECT-ID.
 Sorted from newest to latest."
   (perform-gitlab-request "GET"
-                          (format "projects/%s/events" project-id)
+                          (format "projects/%s/events"
+                                  (url-hexify-string
+                                   (format "%s" project-id)))
                           nil
                           200))
 

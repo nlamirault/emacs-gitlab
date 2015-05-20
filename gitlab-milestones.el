@@ -33,7 +33,8 @@
 
 PROJECT-ID : The ID of a project"
   (perform-gitlab-request (s-concat "projects"
-                                    (number-to-string project-id)
+                                    (url-hexify-string
+                                     (format "%s" project-id))
                                     "milestones"
                                     )
                           nil
@@ -42,7 +43,8 @@ PROJECT-ID : The ID of a project"
 (defun gitlab--get-milestone-uri (project-id milestone-id)
   "Create milestone uri for PROJECT-ID identified by MILESTONE-ID."
   (s-concat "projects/"
-            (number-to-string project-id)
+            (url-hexify-string
+             (format "%s" project-id))
             "/milestones/"
             (number-to-string milestone-id)))
 
@@ -52,7 +54,10 @@ PROJECT-ID : The ID of a project"
 
 PROJECT-ID : The ID of a project
 MILESTONE-ID : The ID of a project milestone"
-  (perform-gitlab-request (gitlab--get-milestone-uri project-id milestone-id)
+  (perform-gitlab-request (gitlab--get-milestone-uri
+                           (url-hexify-string
+                            (format "%s" project-id))
+                           milestone-id)
                           nil
                           200))
 
@@ -62,7 +67,10 @@ MILESTONE-ID : The ID of a project milestone"
 PROJECT-ID : The ID of a project
 MILESTONE-ID : The ID of a project milestone"
   (perform-gitlab-request (s-concat
-                           (gitlab--get-milestone-uri project-id milestone-id)
+                           (gitlab--get-milestone-uri
+                            (url-hexify-string
+                             (format "%s" project-id))
+                            milestone-id)
                            "issues")
                           nil
                           200))
@@ -73,8 +81,10 @@ MILESTONE-ID : The ID of a project milestone"
 PROJECT-ID: The ID or NAMESPACE%2FPROJECT_NAME of a project
 MILESTONE-TITLE: Title of milestone"
   (perform-gitlab-request ("POST"
-                           (format "projects/%s/milestones" project-id)
-                           "title=tescik"
+                           (format "projects/%s/milestones"
+                                   (url-hexify-string
+                                    (format "%s" project-id)))
+                           milestone-title
                            201)))
 
 (provide 'gitlab-milestones)

@@ -44,7 +44,8 @@ LABELS - Comma-separated list of label names"
 
 (defun gitlab--get-issue-uri (project-id issue-id)
   (s-concat "projects/"
-            (number-to-string project-id)
+            (url-hexify-string
+             (format "%s" project-id))
             "/issues/"
             (number-to-string issue-id)))
 
@@ -54,7 +55,8 @@ LABELS - Comma-separated list of label names"
 PROJECT-ID : The ID of a project"
   (perform-gitlab-request "GET"
                           (s-concat "projects/"
-                                    (number-to-string project-id)
+                                    (url-hexify-string
+                                     (format "%s" project-id))
                                     "/issues")
                           nil
                           200))
@@ -65,7 +67,10 @@ PROJECT-ID : The ID of a project"
 PROJECT-ID : The ID of a project
 ISSUE-ID : The ID of a project issue"
   (perform-gitlab-request "GET"
-                          (gitlab--get-issue-uri project-id issue-id)
+                          (gitlab--get-issue-uri
+                           (url-hexify-string
+                            (format "%s" project-id))
+                           issue-id)
                           nil
                           200))
 

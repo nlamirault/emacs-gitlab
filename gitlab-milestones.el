@@ -32,7 +32,8 @@
   "Get a list of project issues.
 
 PROJECT-ID : The ID of a project"
-  (perform-gitlab-request (s-concat "projects"
+  (perform-gitlab-request "GET"
+                          (s-concat "projects"
                                     (url-hexify-string
                                      (format "%s" project-id))
                                     "milestones"
@@ -54,38 +55,40 @@ PROJECT-ID : The ID of a project"
 
 PROJECT-ID : The ID of a project
 MILESTONE-ID : The ID of a project milestone"
-  (perform-gitlab-request (gitlab--get-milestone-uri
-                           (url-hexify-string
-                            (format "%s" project-id))
-                           milestone-id)
-                          nil
-                          200))
+  (perform-gitlab-request  "GET"
+                           (gitlab--get-milestone-uri
+                            (url-hexify-string
+                             (format "%s" project-id))
+                            milestone-id)
+                           nil
+                           200))
 
 (defun gitlab-get-milestone-issues (project-id milestone-id)
   "Gets a single project milestone.
 
 PROJECT-ID : The ID of a project
 MILESTONE-ID : The ID of a project milestone"
-  (perform-gitlab-request (s-concat
-                           (gitlab--get-milestone-uri
-                            (url-hexify-string
-                             (format "%s" project-id))
-                            milestone-id)
-                           "issues")
-                          nil
-                          200))
+  (perform-gitlab-request  "GET"
+                           (s-concat
+                            (gitlab--get-milestone-uri
+                             (url-hexify-string
+                              (format "%s" project-id))
+                             milestone-id)
+                            "issues")
+                           nil
+                           200))
 
 (defun gitlab-create-milestone (project-id milestone-title)
   "Create a project milestone.
 
 PROJECT-ID: The ID or NAMESPACE%2FPROJECT_NAME of a project
 MILESTONE-TITLE: Title of milestone"
-  (perform-gitlab-request ("POST"
-                           (format "projects/%s/milestones"
+  (perform-gitlab-request "POST"
+                          (format "projects/%s/milestones"
                                    (url-hexify-string
                                     (format "%s" project-id)))
                            milestone-title
-                           201)))
+                           201))
 
 (provide 'gitlab-milestones)
 ;;; gitlab-milestones.el ends here

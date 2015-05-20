@@ -59,6 +59,7 @@
 (require 'gitlab-utils)
 (require 'gitlab-session)
 (require 'gitlab-projects)
+(require 'gitlab-milestones)
 (require 'gitlab-issues)
 (require 'gitlab-mode)
 

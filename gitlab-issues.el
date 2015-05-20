@@ -39,7 +39,7 @@ LABELS - Comma-separated list of label names"
     ;;   (add-to-list params (cons "state" state)))
     ;; (when labels
     ;;   (add-to-list params (cons "labels" labels)))
-    (perform-gitlab-request "issues" params 200)))
+    (perform-gitlab-request "GET" "issues" params 200)))
 
 
 (defun gitlab--get-issue-uri (project-id issue-id)
@@ -52,7 +52,8 @@ LABELS - Comma-separated list of label names"
   "Get a list of project issues.
 
 PROJECT-ID : The ID of a project"
-  (perform-gitlab-request (s-concat "projects/"
+  (perform-gitlab-request "GET"
+                          (s-concat "projects/"
                                     (number-to-string project-id)
                                     "/issues")
                           nil
@@ -63,7 +64,8 @@ PROJECT-ID : The ID of a project"
 
 PROJECT-ID : The ID of a project
 ISSUE-ID : The ID of a project issue"
-  (perform-gitlab-request (gitlab--get-issue-uri project-id issue-id)
+  (perform-gitlab-request "GET"
+                          (gitlab--get-issue-uri project-id issue-id)
                           nil
                           200))
 

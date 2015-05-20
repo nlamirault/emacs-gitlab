@@ -95,10 +95,24 @@ Defaults to `error'."
                            :parser 'json-read)))
     response))
 
+(defun gitlab--perform-put-request (uri params)
+  (let ((response (request (gitlab--get-rest-uri uri)
+                           :type "PUT"
+                           :headers (gitlab--get-headers)
+                           :sync t
+                           :data params
+                           :parser 'json-read)))
+    response))
 
-(defun perform-gitlab-request (uri params status-code)
+
+(defun perform-gitlab-request (type uri params status-code)
   (let ((response
-         (gitlab--perform-get-request uri params)))
+         (cond ((string= type "POST")
+		(gitlab--perform-post-request uri params))
+	       ((string= type "GET")
+		(gitlab--perform-get-request uri params))
+	       ((string= type "PUT")
+		(gitlab--perform-put-request uri params)))))
     (if (= status-code (request-response-status-code response))
         (request-response-data response)
       (error

@@ -24,7 +24,7 @@
 (require 'pkg-info)
 
 (ert-deftest gitlab-library-version ()
-  (should (string= "0.3.0" (gitlab--library-version))))
+  (should (string= "0.4.0" (gitlab--library-version))))
 
 
 (provide 'gitlab-version-test)

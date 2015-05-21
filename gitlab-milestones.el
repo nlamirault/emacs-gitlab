@@ -28,15 +28,15 @@
 
 (require 'gitlab-utils)
 
-(defun gitlab-list-milestones (project-id)
-  "Get a list of project issues.
+(defun gitlab-list-project-milestones (project-id)
+  "Get a list of project milestones.
 
 PROJECT-ID : The ID of a project"
   (perform-gitlab-request "GET"
-                          (s-concat "projects"
+                          (s-concat "projects/"
                                     (url-hexify-string
                                      (format "%s" project-id))
-                                    "milestones"
+                                    "/milestones"
                                     )
                           nil
                           200))
@@ -74,9 +74,16 @@ MILESTONE-ID : The ID of a project milestone"
                              (url-hexify-string
                               (format "%s" project-id))
                              milestone-id)
-                            "issues")
+                            "/issues")
                            nil
-                           200))
+                           200)
+  ;; (lwarn '(gitlab) :debug "URL: %s "(s-concat
+  ;;                                    (gitlab--get-milestone-uri
+  ;;                                     (url-hexify-string
+  ;;                                      (format "%s" project-id))
+  ;;                                     milestone-id)
+  ;;                                    "/issues"))
+  )
 
 (defun gitlab-create-milestone (project-id milestone-title)
   "Create a project milestone.

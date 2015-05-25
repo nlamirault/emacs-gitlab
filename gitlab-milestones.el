@@ -85,7 +85,7 @@ MILESTONE-ID : The ID of a project milestone"
   ;;                                    "/issues"))
   )
 
-(defun gitlab-create-milestone (project-id milestone-title)
+(defun gitlab-create-milestone (project-id milestone-title milestone-deadline milestone-description)
   "Create a project milestone.
 
 PROJECT-ID: The ID or NAMESPACE%2FPROJECT_NAME of a project
@@ -94,7 +94,10 @@ MILESTONE-TITLE: Title of milestone"
                           (format "projects/%s/milestones"
                                    (url-hexify-string
                                     (format "%s" project-id)))
-                           milestone-title
+                          (format "title=%s&due_date=%s&description=%s"
+                                  milestone-title
+                                  milestone-deadline
+                                  milestone-description)
                            201))
 
 (provide 'gitlab-milestones)

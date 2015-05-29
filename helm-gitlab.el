@@ -34,6 +34,7 @@
 (require 'browse-url)
 (require 'dash)
 (require 'helm)
+(require 'helm-buffers)
 (require 's)
 
 ;; Customization
@@ -133,7 +134,7 @@
 
 (defun helm-gitlab--issue-show (issue)
   (let ((buf (get-buffer-create helm-gitlab--buffer-name)))
-    (helm-switch-to-buffer buf)
+    (switch-to-buffer buf)
     (let ((inhibit-read-only t))
       (erase-buffer)
       (save-excursion

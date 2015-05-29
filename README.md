@@ -43,14 +43,15 @@ $ curl http://yourgitlabhost/api/v3/session/ --data-urlencode 'login=yourUserNam
 
         $ M-x helm-gitlab-projects
 
-[projects!](var/emacs-gitlab-0.3-helm-projects.png)
+[projects](var/emacs-gitlab-0.3-helm-projects.png)
 
 
 * Show user's issues with helm interface:
 
         $ M-x helm-gitlab-issues
 
-[projects!](var/emacs-gitlab-0.3-helm-issues.png)
+[issues](var/emacs-gitlab-0.3-helm-issues.png)
+
 
 ## Development
 

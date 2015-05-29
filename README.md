@@ -73,10 +73,10 @@ management. Install it and retrieve dependencies :
         $ export GITLAB_USERNAME="foo"
         $ export GITLAB_PASSWORD="bar"
         $ export GITLAB_TOKEN_ID="xxxxxxxxxxxxxx"
-        $ export GITLAB_PROJECT_ID="111222"
+        $ export GITLAB_PROJECT_ID=111222
         $ export GITLAB_PROJECT_NAME="myproject"
         $ export GITLAB_PROJECT_DESCRIPTION="a project description"
-        $ export GITLAB_ISSUE_ID="1"
+        $ export GITLAB_ISSUE_ID=145645
         $ export GITLAB_ISSUE_TITLE="the issue title"
 
 * Launch unit tests :

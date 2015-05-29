@@ -1,8 +1,15 @@
 # emacs-gitlab ChangeLog
 
-## Version 0.3 (IN PROGRESS)
+## Version 0.4 (05/29/2015)
 
-- ``#8``: Invalid URL for issue project 
+- Initial support for Users API (Thanks [marcinant][])
+- ``FIX`` unit tests on Issues API
+- Support Notes API (Thanks [marcinant][])
+- Support Milestone API (Thanks [marcinant][])
+
+## Version 0.3 (04/19/2015)
+
+- ``#8``: Invalid URL for issue project
 - Refactoring unit tests (use [ert-runner][] and [overseer][])
 - ``#7``: Fixed multiline descriptions breaking tabulated view (Thanks [marcinant][])
 - ``#4``: FIX Documentation (Thanks [marcinant][])

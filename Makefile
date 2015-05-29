@@ -58,7 +58,7 @@ elpa:
 .PHONY: build
 build : elpa $(OBJECTS)
 
-test: build
+test: clean build
 	@echo -e "$(OK_COLOR)[$(APP)] Unit tests$(NO_COLOR)"
 	@$(CASK) exec ert-runner
 

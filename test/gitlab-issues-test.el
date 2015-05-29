@@ -56,10 +56,11 @@
               issues)))))
 
 (ert-deftest test-get-single-issue ()
-  :tags '(issues)
+  :tags '(issues current)
   (with-test-sandbox
    (with-gitlab-session
-    (let ((issue (gitlab-get-issue gitlab-project-id "85657"))) ;gitlab-issue-id)))
+    (let ((issue (gitlab-get-issue gitlab-project-id gitlab-issue-id)))
+      (message "Issue : %s" issue)
       (should (s-equals? gitlab-issue-title
                          (assoc-default 'title issue)))))))
 

@@ -1,4 +1,4 @@
-# Copyright (C) 2014 Nicolas Lamirault <nicolas.lamirault@gmail.com>
+# Copyright (C) 2014, 2015 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -58,11 +58,9 @@ elpa:
 .PHONY: build
 build : elpa $(OBJECTS)
 
-test: build
+test: clean build
 	@echo -e "$(OK_COLOR)[$(APP)] Unit tests$(NO_COLOR)"
-	$(CASK) exec $(EMACS) --no-site-file --no-site-lisp --batch \
-		$(EMACSFLAGS) \
-		-l test/run-tests
+	@$(CASK) exec ert-runner
 
 .PHONY: clean
 clean :
@@ -73,23 +71,16 @@ reset : clean
 	@rm -rf .cask
 
 pkg-file:
-	$(CASK) pkg-file
+	@$(CASK) pkg-file
 
 pkg-el: pkg-file
-	$(CASK) package
+	@$(CASK) package
 
 package: clean pkg-el
 	@echo -e "$(OK_COLOR)[$(APP)] Packaging$(NO_COLOR)"
 	cp dist/$(ARCHIVE) .
 	gzip $(ARCHIVE)
 	rm -fr dist
-
-.PHONY: ci
-ci : elpa
-	@echo -e "$(OK_COLOR)[$(APP)] Unit tests with code coverage$(NO_COLOR)"
-	$(CASK) exec $(EMACS) --no-site-file --no-site-lisp --batch \
-		$(EMACSFLAGS) \
-		-l test/run-tests
 
 %.elc : %.el
 	@$(CASK) exec $(EMACS) --no-site-file --no-site-lisp --batch \

@@ -1,6 +1,6 @@
 ;;; gitlab-api.el --- Gitlab API settings.
 
-;; Copyright (C) 2014 Nicolas Lamirault <nicolas.lamirault@gmail.com>
+;; Copyright (C) 2014, 2015 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License
@@ -55,8 +55,14 @@ Use `gitlab-username' or GITLAB_USERNAME environment variable"
 Use `gitlab-password' or GITLAB_PASSWORD environment variable"
   (if gitlab-password
       gitlab-password
-      (getenv "GITLAB_PASSWORD")))
+    (getenv "GITLAB_PASSWORD")))
 
+(defun gitlab--get-token-id ()
+  "Retrieve the Gitlab token ID.
+Use `gitlab-token-id' or GITLAB_TOKEN_ID environment variable"
+  (if gitlab-token-id
+      gitlab-token-id
+    (getenv "GITLAB_TOKEN_ID")))
 
 (provide 'gitlab-api)
 ;;; gitlab-api.el ends here

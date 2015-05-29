@@ -32,4 +32,4 @@ env:
   - EMACS=emacs24
   - EMACS=emacs-snapshot
 script:
-    - make ci
+    - make test

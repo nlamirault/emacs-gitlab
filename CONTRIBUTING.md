@@ -19,6 +19,7 @@ try to follow these guidelines when you do so.
 
 * Read [how to properly contribute to open source projects on Github][2].
 * Use a topic branch to easily amend a pull request later, if necessary.
+  (based on *develop* branch)
 * Write [good commit messages][3].
 * Use the same coding conventions as the rest of the project.
 * Verify your Emacs Lisp code with `checkdoc`.

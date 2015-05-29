@@ -20,7 +20,7 @@ The recommended way to install ``gitlab`` is via [MELPA][]:
 
 or [Cask][]:
 
-	(depends-on "emacs-gitlab")
+	(depends-on "gitlab")
 
 
 ## Usage
@@ -29,7 +29,8 @@ or [Cask][]:
 
         $ (setq gitlab-host "http://mygitlab.com"
                 gitlab-username "foo"
-                gitlab-token-id "...")
+                gitlab-password "bar"
+                gitlab-token-id "xxxxxxxxxxxx")
 
 To generate private ``gitlab-token-id`` run:
 
@@ -42,9 +43,14 @@ $ curl http://yourgitlabhost/api/v3/session/ --data-urlencode 'login=yourUserNam
 
         $ M-x helm-gitlab-projects
 
+[projects](var/emacs-gitlab-0.3-helm-projects.png)
+
+
 * Show user's issues with helm interface:
 
         $ M-x helm-gitlab-issues
+
+[issues](var/emacs-gitlab-0.3-helm-issues.png)
 
 
 ## Development
@@ -66,9 +72,12 @@ management. Install it and retrieve dependencies :
         $ export GITLAB_HOST="http://gitlab.foo.com"
         $ export GITLAB_USERNAME="foo"
         $ export GITLAB_PASSWORD="bar"
-        $ export GITLAB_PROJECT_ID="11111"
+        $ export GITLAB_TOKEN_ID="xxxxxxxxxxxxxx"
+        $ export GITLAB_PROJECT_ID=111222
         $ export GITLAB_PROJECT_NAME="myproject"
-        $ export GITLAB_PROJECT_DESC="a description"
+        $ export GITLAB_PROJECT_DESCRIPTION="a project description"
+        $ export GITLAB_ISSUE_ID=145645
+        $ export GITLAB_ISSUE_TITLE="the issue title"
 
 * Launch unit tests :
 

@@ -1,6 +1,6 @@
 ;;; gitlab-projects.el --- Projects API
 
-;; Copyright (C) 2014 Nicolas Lamirault <nicolas.lamirault@gmail.com>
+;; Copyright (C) 2014, 2015 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License
@@ -32,24 +32,28 @@
 
 (defun gitlab-list-projects ()
   "Get a list of projects accessible by the authenticated user."
-  (perform-gitlab-request "projects" nil 200))
+  (perform-gitlab-request "GET" "projects" nil 200))
 
 
 (defun gitlab-list-owned-projects ()
   "Get a list of projects which are owned by the authenticated user."
-  (perform-gitlab-request "projects/owned" nil 200))
+  (perform-gitlab-request "GET" "projects/owned" nil 200))
 
 
 (defun gitlab-get-project (project-id)
   "Get a specific project, identified by PROJECT-ID."
-  (perform-gitlab-request (format "projects/%s" project-id)
+  (perform-gitlab-request "GET"
+                          (format "projects/%s"
+                                  (url-hexify-string
+                                   (format "%s"project-id)))
                           nil
                           200))
 
 (defun gitlab-search-projects (name)
   "Search for projects by name which are accessible to the authenticated user.
 NAME is a string contained in the project name."
-  (perform-gitlab-request (s-concat "projects/search/" name)
+  (perform-gitlab-request "GET"
+                          (s-concat "projects/search/" name)
                           nil
                           200))
 
@@ -57,15 +61,29 @@ NAME is a string contained in the project name."
 (defun gitlab-list-project-members (project-id)
   "Get a list of a project's team members.
 PROJECT-ID is The ID or NAMESPACE/PROJECT_NAME of a project."
-  (perform-gitlab-request (format "projects/%s/members" project-id)
+  (perform-gitlab-request "GET"
+                          (format "projects/%s/members"
+                                  (url-hexify-string
+                                   (format "%s" project-id)))
                           nil
                           200))
 
+(defun gitlab-add-project (project-name)
+  "Add a specific project, identified by PROJECT-NAME."
+  (perform-gitlab-request "POST"
+                          (format "projects/%s"
+                                  (url-hexify-string
+                                   (format "%s" project-id)))
+                          nil
+                          201))
 
 (defun gitlab-list-project-events (project-id)
   "Get the events for the specified project, identified by PROJECT-ID.
 Sorted from newest to latest."
-  (perform-gitlab-request (format "projects/%s/events" project-id)
+  (perform-gitlab-request "GET"
+                          (format "projects/%s/events"
+                                  (url-hexify-string
+                                   (format "%s" project-id)))
                           nil
                           200))
 

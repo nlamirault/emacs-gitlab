@@ -7,7 +7,7 @@
 
 ;; Package-Requires: ((s "1.9.0") (dash "2.9.0") (helm "1.0") (gitlab "0"))
 
-;; Copyright (C) 2014 Nicolas Lamirault <nicolas.lamirault@gmail.com>
+;; Copyright (C) 2014, 2015 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License
@@ -34,6 +34,7 @@
 (require 'browse-url)
 (require 'dash)
 (require 'helm)
+(require 'helm-buffers)
 (require 's)
 
 ;; Customization
@@ -66,8 +67,11 @@
 ;; -------
 
 (defun helm-gitlab--get-issue-link (project-id issue-id)
+  "Create the URL to show a project's issue.
+`PROJECT-ID' is the project ID
+`ISSUE-ID' is the issue ID."
   (-when-let (project (gitlab-get-project project-id))
-    (s-concat gitlab-host
+    (s-concat (gitlab--get-host)
               "/"
               (assoc-default 'path_with_namespace project)
               "/issues/"
@@ -130,7 +134,7 @@
 
 (defun helm-gitlab--issue-show (issue)
   (let ((buf (get-buffer-create helm-gitlab--buffer-name)))
-    (helm-switch-to-buffer buf)
+    (switch-to-buffer buf)
     (let ((inhibit-read-only t))
       (erase-buffer)
       (save-excursion

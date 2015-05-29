@@ -1,6 +1,6 @@
 ;;; gitlab-session-test.el --- Tests for Gitlab authentification
 
-;; Copyright (C) Nicolas Lamirault <nicolas.lamirault@gmail.com>
+;; Copyright (C) 2014, 2015 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License
@@ -21,13 +21,13 @@
 
 ;;; Code:
 
-(require 'gitlab)
-
 (ert-deftest test-open-session ()
-  (let ((id (gitlab-login)))
-    ;; (message "[gitlab] Session ID: %s" id)
-    (should (not (s-blank? id)))
-    (should (not (s-blank? gitlab-token-id)))))
+  :tags '(session)
+  (with-test-sandbox
+   (let ((id (gitlab-login)))
+     ;; (message "[gitlab] Session ID: %s" id)
+     (should (not (s-blank? id)))
+     (should (not (s-blank? gitlab-token-id))))))
 
 (provide 'gitlab-session-test)
 ;;; gitlab-session-test.el ends here

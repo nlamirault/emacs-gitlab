@@ -1,8 +1,8 @@
 ;; test-helper.el --- Test helpers for gitlab.el
 
-;; Copyright (C) Nicolas Lamirault <nicolas.lamirault@gmail.com>
+;; Copyright (C) 2014, 2015 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
-;; Author: Nicolas Lamirault <nicolas.lamirault@chmouel.com>
+;; Author: Nicolas Lamirault <nicolas.lamirault@gmail.com>
 ;; Homepage: https://github.com/nlamirault/emacs-gitlab
 
 ;;; License:
@@ -27,6 +27,8 @@
 ;;; Code:
 
 (require 'ansi)
+(require 'cl) ;; http://emacs.stackexchange.com/questions/2864/symbols-function-definition-is-void-cl-macroexpand-all-when-trying-to-instal
+(require 'ert)
 (require 'f)
 (require 'undercover)
 
@@ -54,7 +56,8 @@
             (when (string-match (s-concat username "/.emacs.d") path)
               (message (ansi-yellow "Suppression path %s" path))
               (setq load-path (delete path load-path))))
-        load-path))
+        load-path)
+  (add-to-list 'load-path default-directory))
 
 (defun load-unit-tests (path)
   "Load all unit test from PATH."
@@ -69,12 +72,36 @@
   (let ((path (s-concat gitlab-source-dir file)))
     (message (ansi-yellow "[gitlab] Load library from %s" path))
     (undercover "*.el" (:exclude "*-test.el"))
-    (require 'gitlab))); path)))
+    (require 'gitlab path)))
 
 
 (defun setup-gitlab ()
   "Setup Gitlab for unit test."
-  )
+  (setq gitlab-project-id (getenv "GITLAB_PROJECT_ID")
+        gitlab-project-name (getenv "GITLAB_PROJECT_NAME")
+        gitlab-project-description (getenv "GITLAB_PROJECT_DESCRIPTION")
+        gitlab-issue-id (getenv "GITLAB_ISSUE_ID")
+        gitlab-issue-title (getenv "GITLAB_ISSUE_TITLE")))
+
+(defmacro with-gitlab-session (&rest body)
+  "Evaluate BODY in a Gitlab session."
+  `(progn
+     (gitlab-login)
+     ,@body
+     (setq gitlab-token-id nil)))
+
+(defmacro with-test-sandbox (&rest body)
+  "Evaluate BODY in an empty sandbox directory."
+  `(unwind-protect
+       (condition-case nil ;ex
+           (let ((default-directory gitlab-source-dir))
+             (cleanup-load-path)
+             (load-library "/gitlab.el")
+             (setup-gitlab)
+             ,@body)
+         )))
+         ;; (error
+         ;;  (message (ansi-red "[Scame] Error during unit tests : %s" ex))))))
 
 
 (provide 'test-helper)

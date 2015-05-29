@@ -1,6 +1,6 @@
-;;; gitlab-test-utils.el --- Utils for unit tests for Gitlab
+;;; gitlab-users.el --- Gitlab Users API
 
-;; Copyright (C) Nicolas Lamirault <nicolas.lamirault@gmail.com>
+;; Copyright (C) 2015 Marcin Antczak <marcin.antczak@neutrico.eu>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License
@@ -19,26 +19,34 @@
 
 ;;; Commentary:
 
+;; See API doc :
+;; https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/users.md
+
 ;;; Code:
 
-(require 'gitlab)
+(require 's)
 
-(defmacro with-gitlab-session (&rest body)
-  `(progn
-     (gitlab-login)
-     ,@body
-     (setq gitlab-token-id nil)))
+(require 'gitlab-utils)
 
-
-(defun gitlab-project-id ()
-  (getenv "GITLAB_PROJECT_ID"))
-
-(defun gitlab-project-name ()
-  (getenv "GITLAB_PROJECT_NAME"))
-
-(defun gitlab-project-description ()
-  (getenv "GITLAB_PROJECT_DESC"))
+(defun gitlab-list-users ()
+  "Get a list of users."
+  (perform-gitlab-request "GET"
+                          "users"
+                          nil
+                          200))
 
 
-(provide 'gitlab-test-utils)
-;;; gitlab-test-utils.el ends here
+(defun gitlab-get-user (user-id)
+  "Gets a single user data.
+
+USER-ID : The ID of a project user"
+  (perform-gitlab-request  "GET"
+                           (format "%s" user-id)
+                           nil
+                           200))
+
+;; @todo user create/edit/delete
+
+
+(provide 'gitlab-users)
+;;; gitlab-users.el ends here

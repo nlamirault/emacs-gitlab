@@ -23,52 +23,60 @@
 
 (require 's)
 
-(require 'gitlab)
-(require 'gitlab-test-utils)
 
 (ert-deftest test-list-projects-without-session ()
-  (should-error (gitlab-list-projects)))
+  :tags '(projects)
+  (with-test-sandbox
+   (should-error (gitlab-list-projects))))
 
 (ert-deftest test-list-projects ()
-  (with-gitlab-session
-   (let ((projects (gitlab-list-projects)))
-     (should (<= 0 (length projects)))
-     ;;(message "Projects list : %s" (length projects))
-     (mapcar (lambda (p)
-               (message "Project: %s %s"
-                        (assoc-default 'name p)
-                        (assoc-default 'id p))
-               (should (not (s-blank? (assoc-default 'name p)))))
-             projects))))
+  :tags '(projects)
+  (with-test-sandbox
+   (with-gitlab-session
+    (let ((projects (gitlab-list-projects)))
+      (should (<= 0 (length projects)))
+      ;;(message "Projects list : %s" (length projects))
+      (mapcar (lambda (p)
+                (message "Project: %s %s"
+                         (assoc-default 'name p)
+                         (assoc-default 'id p))
+                (should (not (s-blank? (assoc-default 'name p)))))
+              projects)))))
 
 (ert-deftest test-list-user-projects ()
-  (with-gitlab-session
-   (let ((projects (gitlab-list-owned-projects)))
-     (should (< 0 (length projects)))
-     (mapcar (lambda (p)
-               ;; (message "%s" (assoc-default 'name p))
-               (should (not (s-blank? (assoc-default 'name p)))))
-             projects))))
+  :tags '(projects)
+  (with-test-sandbox
+   (with-gitlab-session
+    (let ((projects (gitlab-list-owned-projects)))
+      (should (< 0 (length projects)))
+      (mapcar (lambda (p)
+                (message "%s" p) ;;(assoc-default 'name p))
+                (should (not (s-blank? (assoc-default 'name p)))))
+              projects)))))
 
 (ert-deftest test-get-project ()
-  (with-gitlab-session
-   (let ((project (gitlab-get-project (gitlab-project-id))))
-     (message "Project : %s %s"
-              (assoc-default 'name project)
-              (assoc-default 'description project))
-     (should (s-equals? (gitlab-project-name)
-                        (assoc-default 'name project)))
-     (should (s-equals? (gitlab-project-description)
-                        (assoc-default 'description project))))))
+  :tags '(projects current)
+  (with-test-sandbox
+   (with-gitlab-session
+    (let ((project (gitlab-get-project gitlab-project-id)))
+      (message "Project : %s %s"
+               (assoc-default 'name project)
+               (assoc-default 'description project))
+      (should (s-equals? gitlab-project-name
+                         (assoc-default 'name project)))
+      (should (s-equals? gitlab-project-description
+                         (assoc-default 'description project)))))))
 
 (ert-deftest test-list-project-events ()
-  (with-gitlab-session
-   (let ((events (gitlab-list-project-events (gitlab-project-id))))
-     (should (<= 0 (length events)))
-     (mapcar (lambda (e)
-               ;; (message "%s" (assoc-default 'author_id e))
-               (should (numberp (assoc-default 'author_id e))))
-             events))))
+  :tags '(projects)
+  (with-test-sandbox
+   (with-gitlab-session
+    (let ((events (gitlab-list-project-events gitlab-project-id)))
+      (should (<= 0 (length events)))
+      (mapcar (lambda (e)
+                ;; (message "%s" (assoc-default 'author_id e))
+                (should (numberp (assoc-default 'author_id e))))
+              events)))))
 
 (provide 'gitlab-project-test)
 ;;; gitlab-projects-test.el ends here

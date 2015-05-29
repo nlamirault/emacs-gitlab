@@ -85,17 +85,51 @@ MILESTONE-ID : The ID of a project milestone"
   ;;                                    "/issues"))
   )
 
-(defun gitlab-create-milestone (project-id milestone-title)
+(defun gitlab-create-milestone (project-id milestone-title milestone-deadline milestone-description)
   "Create a project milestone.
 
 PROJECT-ID: The ID or NAMESPACE%2FPROJECT_NAME of a project
 MILESTONE-TITLE: Title of milestone"
   (perform-gitlab-request "POST"
+
                           (format "projects/%s/milestones"
                                    (url-hexify-string
                                     (format "%s" project-id)))
-                           milestone-title
+
+                          (format "title=%s&due_date=%s&description=%s"
+                                  milestone-title
+                                  milestone-deadline
+                                  milestone-description)
                            201))
+
+(defun gitlab-edit-milestone (project-id milestone-id &optional title description due-date state-event)
+  "Edit milestone.
+
+PROJECT-ID: the ID or NAMESPACE%2FPROJECT_NAME of a project
+MILESTONE-ID: the ID office milestone
+TITLE: title of milestone
+DESCRIPTION: description of milestone
+DUE-DATE: deadline
+STATE-EVENT: activate or close milestone"
+  (perform-gitlab-request "PUT"
+
+                          (format "projects/%s/milestones/%s"
+                                   (url-hexify-string
+                                    (format "%s" project-id))
+                                   milestone-id)
+
+                          (format "%s"
+                                  (concat
+                                   (when title
+                                     (format "&title=%s" title))
+                                   (when description
+                                     (format "&description=%s" description))
+                                   (when due-date
+                                     (format "&due_date=%s" due-date))
+                                   (when state-event
+                                     (format "&state_event=%s" state-event))))
+                           200))
+
 
 (provide 'gitlab-milestones)
 ;;; gitlab-milestones.el ends here

@@ -74,6 +74,66 @@ ISSUE-ID : The ID of a project issue"
                           nil
                           200))
 
+(defun gitlab-create-issue (project-id title &optional description assignee milestone labels)
+  "Create a project issue.
+
+PROJECT-ID the ID or NAMESPACE%2FPROJECT_NAME of a project
+TITLE issue title
+DESCRIPTION issue description
+ASSIGNEE assignee ID
+MILESTONE milestone ID
+LABELS comma-separated list label names"
+  (lwarn '(gitlab) :debug "Create ISSUE in project: %s" project-id)
+  (perform-gitlab-request "POST"
+                          (format "projects/%s/issues"
+                                   (url-hexify-string
+                                    (format "%s" project-id)))
+                          (format "title=%s%s"
+                                  title
+                                  (concat
+                                   (when description
+                                    (format "&description=%s" description))
+                                  (when assignee
+                                    (format "&assignee_id=%s" assignee))
+                                  (when milestone
+                                    (format "&milestone_id=%s" milestone))
+                                  (when labels
+                                    (format "&labels=%s" labels))
+                                  ))
+                           201))
+
+(defun gitlab-edit-issue (project-id issue-id &optional title description assignee-id milestone-id labels state-event)
+  "Create a project issue.
+
+PROJECT-ID the ID or NAMESPACE%2FPROJECT_NAME of a project
+TITLE issue title
+DESCRIPTION issue description
+ASSIGNEE assignee ID
+MILESTONE milestone ID
+LABELS comma-separated list label names"
+  (lwarn '(gitlab) :debug "UPDATE ISSUE in project: %s\n" project-id)
+  (perform-gitlab-request "PUT"
+                          (format "projects/%s/issues/%s"
+                                   (url-hexify-string
+                                    (format "%s" project-id))
+                                   issue-id)
+
+                          (format "%s"
+                                  (concat
+                                   (when title
+                                     (format "&title=%s" title))
+                                   (when description
+                                     (format "&description=%s" description))
+                                   (when assignee-id
+                                     (format "&assignee_id=%s" assignee-id))
+                                   (when milestone-id
+                                     (format "&milestone_id=%s" milestone-id))
+                                   (when labels
+                                     (format "&labels=%s" labels))
+                                   (when state-event
+                                     (format "&state_event=%s" state-event))))
+                          200))
+
 
 (provide 'gitlab-issues)
 ;;; gitlab-issues.el ends here

@@ -50,6 +50,7 @@
   (let ((project (tabulated-list-get-entry)))
     (browse-url (assoc-default 'web_url project))))
 
+;;;###autoload
 (defun gitlab-show-projects ()
   "Show Gitlab projects."
   (interactive)
@@ -91,6 +92,7 @@
                      (assoc-default 'title i)))))
           issues))
 
+;;;###autoload
 (defun gitlab-show-issues ()
   "Show Gitlab issues."
   (interactive)

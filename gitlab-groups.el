@@ -41,13 +41,14 @@
 (defun gitlab-list-groups ()
   "Get a list of groups.
 As user : my groups, as admin : all groups."
-  (perform-gitlab-request "groups" nil 200))
+  (perform-gitlab-request "GET" "groups" nil 200))
 
 
 (defun gitlab-get-group (group-id)
   "Get all details of a group.
 GROUP-ID is the ID of a group."
-  (perform-gitlab-request (s-concat "groups/"
+  (perform-gitlab-request "GET"
+                          (s-concat "groups/"
                                     (number-to-string group-id))
                           nil
                           200))
@@ -55,7 +56,8 @@ GROUP-ID is the ID of a group."
 (defun gitlab-list-group-members (group-id)
   "Get a list of group members viewable by the authenticated user.
 GROUP-ID is the ID of a group."
-  (perform-gitlab-request (s-concat "groups/"
+  (perform-gitlab-request "GET"
+                          (s-concat "groups/"
                                     (number-to-string group-id)
                                     "/members")
                           nil

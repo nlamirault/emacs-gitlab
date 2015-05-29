@@ -1,6 +1,6 @@
-;;; gitlab-version-test.el --- Tests for version information
+;;; gitlab-users.el --- Gitlab Users API
 
-;; Copyright (C) 2014, 2015 Nicolas Lamirault <nicolas.lamirault@gmail.com>
+;; Copyright (C) 2015 Marcin Antczak <marcin.antczak@neutrico.eu>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License
@@ -19,15 +19,34 @@
 
 ;;; Commentary:
 
+;; See API doc :
+;; https://github.com/gitlabhq/gitlabhq/blob/master/doc/api/users.md
+
 ;;; Code:
 
-(require 'pkg-info)
+(require 's)
 
-(ert-deftest gitlab-library-version ()
-  :tags '(version)
-  (with-test-sandbox
-  (should (string= "0.4.0" (gitlab--library-version)))))
+(require 'gitlab-utils)
+
+(defun gitlab-list-users ()
+  "Get a list of users."
+  (perform-gitlab-request "GET"
+                          "users"
+                          nil
+                          200))
 
 
-(provide 'gitlab-version-test)
-;;; gitlab-version-test.el ends here
+(defun gitlab-get-user (user-id)
+  "Gets a single user data.
+
+USER-ID : The ID of a project user"
+  (perform-gitlab-request  "GET"
+                           (format "%s" user-id)
+                           nil
+                           200))
+
+;; @todo user create/edit/delete
+
+
+(provide 'gitlab-users)
+;;; gitlab-users.el ends here

@@ -59,8 +59,11 @@
 (require 'gitlab-utils)
 (require 'gitlab-session)
 (require 'gitlab-projects)
+(require 'gitlab-milestones)
+(require 'gitlab-notes)
 (require 'gitlab-issues)
 (require 'gitlab-mode)
+(require 'gitlab-users)
 
 
 ;;;###autoload

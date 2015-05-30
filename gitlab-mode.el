@@ -63,7 +63,9 @@
   "Create entries for 'tabulated-list-entries from PROJECTS."
   (mapcar (lambda (p)
             (let ((id (number-to-string (assoc-default 'id p)))
-                  (owner (assoc-default 'owner p))
+                  (owner (if (assoc-default 'owner p)
+                             (assoc-default 'owner p)
+                           (assoc-default 'namespace p)))
                   (namespace (assoc-default 'namespace p)))
               (list id
                     (vector ;id

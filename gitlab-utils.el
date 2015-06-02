@@ -120,10 +120,7 @@ Defaults to `error'."
 		(gitlab--perform-put-request uri params)))))
     (if (= status-code (request-response-status-code response))
         (request-response-data response)
-      (error
-       (signal 'gitlab-http-error
-               (list (request-response-status-code response)
-                     (request-response-data response)))))))
+      (lwarn '(gitlab) :error "HTTP %s Error %s on URI: %s" type (request-response-status-code response) uri))))
 
 
 ;; (defmacro with-gitlab-request (uri params status-code response-data &rest body)

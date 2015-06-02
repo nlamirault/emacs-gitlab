@@ -41,14 +41,63 @@
   (interactive)
   (message (concat "Current ID is: " (tabulated-list-get-id))))
 
+(defun project-make-button (text &rest props)
+  "Make button with TEXT propertized with PROPS."
+  (let ((button-text (if (display-graphic-p)
+                         text
+                       (concat "[" text "]")))
+        (button-face (if (display-graphic-p)
+                         '(:box (:line-width 2 :color "dark grey")
+                                :background "light grey"
+                                :foreground "black")
+                       'link)))
+    (apply 'insert-text-button button-text
+           'face button-face
+           'follow-link t
+           props)))
+
 
 
 ;; Projects
+(defun gitlab-project-clone-button-action (button)
+  "Docstring."
+  )
+
 
 (defun gitlab-goto-project ()
   "Got to web page of the project."
-  (let ((project (tabulated-list-get-entry)))
+  (interactive)
+  (let* ((project (gitlab-get-project (tabulated-list-get-id))))
     (browse-url (assoc-default 'web_url project))))
+
+(defun gitlab-show-project-description (project)
+  "Doc string PROJECT."
+  (interactive)
+  (with-help-window (help-buffer)
+    (with-current-buffer standard-output
+      (insert "    ")
+      (princ (assoc-default 'name project))
+      (princ "\n\n")
+      (insert "    ")
+      (princ (assoc-default 'path_with_namespace project))
+      (princ "\n\n")
+      (project-make-button
+       "Clone"
+       'action 'gitlab-project-clone-button-action
+       'project-desc "desc")
+      )))
+
+
+
+(defun gitlab-describe-project (&optional button)
+  "Describe the current pproject.
+If optional arg BUTTON is non-nil, describe its associated project."
+  (interactive)
+  (let ((project (gitlab-get-project (tabulated-list-get-id))))
+    (if project
+        (gitlab-show-project-description project)
+      (user-error "No project here"))))
+
 
 (defun gitlab-show-projects ()
   "Show Gitlab projects."
@@ -81,6 +130,10 @@
 
 (defun gitlab-goto-issue ()
   "Got to web page of the issue."
+  (interactive)
+  (let ((issue (gitlab-get-issue (project-id tabulated-list-get-id))))
+    (browse-url "")
+    )
   )
 
 (defun create-issues-entries (issues)
@@ -113,6 +166,7 @@
   (let ((map (make-keymap)))
     (define-key map (kbd "v") 'print-current-line-id)
     (define-key map (kbd "w") 'gitlab-goto-project)
+    (define-key map (kbd "d") 'gitlab-describe-project)
     map)
   "Keymap for `gitlab-projects-mode' major mode.")
 

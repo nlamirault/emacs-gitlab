@@ -78,15 +78,18 @@ Defaults to `error'."
 
 
 (defun gitlab--perform-get-request (uri params)
+  "Doc string URI PARAMS."
   (let* ((response (request (gitlab--get-rest-uri uri)
                             :type "GET"
                             :headers (gitlab--get-headers)
                             :sync t
                             :params params
+                            ;;:data params
                             :parser 'json-read)))
     response))
 
 (defun gitlab--perform-post-request (uri params)
+  "Doc string URI PARAMS."
   (let ((response (request (gitlab--get-rest-uri uri)
                            :type "POST"
                            :headers (gitlab--get-headers)
@@ -96,6 +99,7 @@ Defaults to `error'."
     response))
 
 (defun gitlab--perform-put-request (uri params)
+  "Doc string URI PARAMS."
   (let ((response (request (gitlab--get-rest-uri uri)
                            :type "PUT"
                            :headers (gitlab--get-headers)
@@ -106,6 +110,7 @@ Defaults to `error'."
 
 
 (defun perform-gitlab-request (type uri params status-code)
+  "Doc string TYPE URI PARAMS STATUS-CODE."
   (let ((response
          (cond ((string= type "POST")
 		(gitlab--perform-post-request uri params))
@@ -115,10 +120,7 @@ Defaults to `error'."
 		(gitlab--perform-put-request uri params)))))
     (if (= status-code (request-response-status-code response))
         (request-response-data response)
-      (error
-       (signal 'gitlab-http-error
-               (list (request-response-status-code response)
-                     (request-response-data response)))))))
+      (lwarn '(gitlab) :error "HTTP %s Error %s on URI: %s" type (request-response-status-code response) uri))))
 
 
 ;; (defmacro with-gitlab-request (uri params status-code response-data &rest body)

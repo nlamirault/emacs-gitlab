@@ -240,7 +240,7 @@ If optional arg BUTTON is non-nil, describe its associated project."
   :group 'gitlab
   (setq tabulated-list-format [;("ID" 5 t)
                                ("State" 10 t)
-                               ("Project" 8xx t)
+                               ("Project" 8 t)
                                ("Author" 20 t)
                                ("Title" 0 t)])
   (setq tabulated-list-padding 2)

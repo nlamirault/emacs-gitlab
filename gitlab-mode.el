@@ -27,6 +27,7 @@
 
 (require 'browse-url)
 (require 'tabulated-list)
+(require 'vc-git)
 
 ;; Gitlab library
 
@@ -59,10 +60,21 @@
 ;; Projects
 (defun gitlab-project-clone-button-action (button)
   "Action for BUTTON."
-  (interactive (list (read-file-name "Open directory:")) )
+  (interactive)
+
   (let* ((project (gitlab-get-project (button-get button 'project-id)))
-         (repo (assoc-default 'ssh_url_to_repo project)))
-    (vc-git-command nil 0 nil "clone" repo "~/test")
+         (name (assoc-default 'path project))
+         (repo (assoc-default 'ssh_url_to_repo project))
+         (target-dir (read-directory-name "Clone to directory:" (first query-replace-defaults))))
+
+    (if (file-directory-p (expand-file-name name target-dir))
+        (progn
+          (message "Target directory exists and is not empty. Trying to pull.")
+          (let ((default-directory (file-name-as-directory (expand-file-name name target-dir))))
+            (vc-git-command nil 0 nil "pull" repo)))
+      (progn
+        (make-directory name target-dir)
+        (vc-git-command nil 0 nil "clone" repo (file-name-as-directory (expand-file-name name target-dir)))))
     (revert-buffer nil t)
     (goto-char (point-min))))
 
@@ -104,7 +116,7 @@
                (insert (propertize (capitalize "Public") 'font-lock-faces 'font-lock-builtin-face))))
         (insert " -- ")
         (project-make-button
-         "Clone"
+         "Clone to / Pull"
          'action 'gitlab-project-clone-button-action
          'project-id id)
 
@@ -162,10 +174,8 @@ If optional arg BUTTON is non-nil, describe its associated project."
 (defun gitlab-goto-issue ()
   "Got to web page of the issue."
   (interactive)
-  (let ((issue (gitlab-get-issue (project-id tabulated-list-get-id))))
-    (browse-url "")
-    )
-  )
+  (let ((project (gitlab-get-project (elt (tabulated-list-get-entry) 1))))
+    (browse-url (concat (assoc-default 'web_url project) "/issues/" (tabulated-list-get-id)))))
 
 (defun create-issues-entries (issues)
   "Create entries for 'tabulated-list-entries from ISSUES."
@@ -175,6 +185,7 @@ If optional arg BUTTON is non-nil, describe its associated project."
               (list id
                     (vector ;id
                      (assoc-default 'state i)
+                     (format "%s" (assoc-default 'project_id i))
                      (assoc-default 'name author)
                      (assoc-default 'title i)))))
           issues))
@@ -229,16 +240,12 @@ If optional arg BUTTON is non-nil, describe its associated project."
   :group 'gitlab
   (setq tabulated-list-format [;("ID" 5 t)
                                ("State" 10 t)
+                               ("Project" 8xx t)
                                ("Author" 20 t)
                                ("Title" 0 t)])
   (setq tabulated-list-padding 2)
   (setq tabulated-list-sort-key (cons "Title" nil))
   (tabulated-list-init-header))
-
-
-
-
-
 
 (provide 'gitlab-mode)
 ;;; gitlab-mode.el ends here

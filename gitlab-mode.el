@@ -56,12 +56,15 @@
            'follow-link t
            props)))
 
-
-
 ;; Projects
 (defun gitlab-project-clone-button-action (button)
-  "Docstring."
-  )
+  "Action for BUTTON."
+  (interactive (list (read-file-name "Open directory:")) )
+  (let* ((project (gitlab-get-project (button-get button 'project-id)))
+         (repo (assoc-default 'ssh_url_to_repo project)))
+    (vc-git-command nil 0 nil "clone" repo "~/test")
+    (revert-buffer nil t)
+    (goto-char (point-min))))
 
 
 (defun gitlab-goto-project ()
@@ -70,23 +73,51 @@
   (let* ((project (gitlab-get-project (tabulated-list-get-id))))
     (browse-url (assoc-default 'web_url project))))
 
+
 (defun gitlab-show-project-description (project)
   "Doc string PROJECT."
   (interactive)
   (with-help-window (help-buffer)
     (with-current-buffer standard-output
-      (insert "    ")
-      (princ (assoc-default 'name project))
-      (princ "\n\n")
-      (insert "    ")
-      (princ (assoc-default 'path_with_namespace project))
-      (princ "\n\n")
-      (project-make-button
-       "Clone"
-       'action 'gitlab-project-clone-button-action
-       'project-desc "desc")
-      )))
+      (let ((desc (assoc-default 'description project))
+            (homepage (assoc-default 'web_url project))
+            (id (assoc-default 'id project))
+            (status (number-to-string (assoc-default 'visibility_level project))))
 
+        (insert "       Name: ")
+        (princ (assoc-default 'name project))
+        (princ "\n")
+        (insert "       Path: ")
+        (princ (assoc-default 'path_with_namespace project))
+        (princ "\n\n")
+
+        (insert " Repository: ")
+        (princ (assoc-default 'ssh_url_to_repo project))
+        (insert "\n\n")
+
+        (insert "     " (propertize "Status" 'font-lock-face 'bold) ": ")
+        (cond ((string= status "0")
+               (insert (propertize (capitalize "Private") 'font-lock-faces 'font-lock-builtin-face)))
+              ((string= status "10")
+               (insert (propertize (capitalize "Internal") 'font-lock-faces 'font-lock-builtin-face)))
+              ((string= status "20")
+               (insert (propertize (capitalize "Public") 'font-lock-faces 'font-lock-builtin-face))))
+        (insert " -- ")
+        (project-make-button
+         "Clone"
+         'action 'gitlab-project-clone-button-action
+         'project-id id)
+
+        (insert "\n\n")
+
+
+        (insert "    " (propertize "Summary" 'font-lock-face 'bold)
+                ": " (if desc desc) "\n")
+
+        (when homepage
+          (insert "   " (propertize "Homepage" 'font-lock-face 'bold) ": ")
+          (help-insert-xref-button homepage 'help-url homepage)
+          (insert "\n"))))))
 
 
 (defun gitlab-describe-project (&optional button)

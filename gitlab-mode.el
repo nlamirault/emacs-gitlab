@@ -56,12 +56,13 @@
   (pop-to-buffer "*Gitlab projects*" nil)
   (gitlab-projects-mode)
   (setq tabulated-list-entries
-        (create-projects-entries (gitlab-list-projects)))
+        (create-projects-entries (gitlab-list-all-projects)))
   (tabulated-list-print t))
 
 (defun create-projects-entries (projects)
   "Create entries for 'tabulated-list-entries from PROJECTS."
   (mapcar (lambda (p)
+
             (let ((id (number-to-string (assoc-default 'id p)))
                   (owner (if (assoc-default 'owner p)
                              (assoc-default 'owner p)
@@ -99,7 +100,7 @@
   (pop-to-buffer "*Gitlab issues*" nil)
   (gitlab-issues-mode)
   (setq tabulated-list-entries
-        (create-issues-entries (gitlab-list-issues)))
+        (create-issues-entries (gitlab-list-all-issues)))
   (tabulated-list-print t))
 
 

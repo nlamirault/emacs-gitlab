@@ -37,21 +37,43 @@
             (number-to-string issue-id)
             "/notes"))
 
-(defun gitlab-list-project-issue-notes (project-id issue-id)
+(defun gitlab-list-project-issue-notes (project-id issue-id &optional page per-page)
   "Get a list of project issue notes.
 
 PROJECT-ID : The ID of a project
+ISSUE-ID : The ID of a project issue
+PAGE: current page number
+PER-PAGE: number of items on page max 100"
+  (let* ((params '()))
+    (add-to-list 'params (cons 'per_page (number-to-string per-page)))
+    (add-to-list 'params (cons 'page (number-to-string page)))
+    (perform-gitlab-request "GET"
+                            (gitlab--get-notes-uri
+                             project-id
+                             issue-id)
+                            params
+                            200)))
+
+(defun gitlab-list-all-project-issue-notes (project-id issue-id)
+  "Get a list of allproject issue notes.
+
+PROJECT-ID : The ID of a project
 ISSUE-ID : The ID of a project issue"
-  (perform-gitlab-request "GET"
-                          (gitlab--get-notes-uri
-                           project-id
-                           issue-id)
-                          nil
-                          200))
+  (interactive)
+  (let* ((page 1)
+         (per-page 100)
+         (notes)
+         (all-notes (gitlab-list-project-issue-notes project-id issue-id page per-page))
+         (all-notes-count (length all-notes)))
+    (while (>= all-notes-count (* page per-page))
+      (setq notes (gitlab-list-project-issue-notes project-id issue-id page per-page))
+      (setq all-notes (vconcat all-notes notes))
+      (setq all-notes-count (length all-notes))
+      (setq page (1+ page)))
+    all-notes))
 
 (defun gitlab-get-issue-note (project-id issue-id note-id)
-  "Doc PROJECT-ID ISSUE-ID NOTE-ID."
-  )
+  "Doc PROJECT-ID ISSUE-ID NOTE-ID.")
 
 (defun gitlab-add-issue-note (project-id issue-id body)
   "Add note for project issue.

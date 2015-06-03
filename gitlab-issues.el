@@ -30,17 +30,32 @@
 (require 'gitlab-utils)
 
 
-(defun gitlab-list-issues ()
+(defun gitlab-list-issues (page per-page)
   "Get all issues created by authenticated user.
 STATE Return all issues or just those that are opened or closed
 LABELS - Comma-separated list of label names"
   (let ((params '()))
-    ;; (when state
-    ;;   (add-to-list params (cons "state" state)))
-    ;; (when labels
-    ;;   (add-to-list params (cons "labels" labels)))
-    (perform-gitlab-request "GET" "issues" params 200)))
+    (add-to-list 'params (cons 'per_page (number-to-string per-page)))
+    (add-to-list 'params (cons 'page (number-to-string page)))
+    (perform-gitlab-request "GET"
+                            "issues"
+                            params
+                            200)))
 
+(defun gitlab-list-all-issues ()
+  "Get a list of all issues."
+  (interactive)
+  (let* ((page 1)
+         (per-page 100)
+         (issues)
+         (all-issues (gitlab-list-issues page per-page))
+         (all-issues-count (length all-issues)))
+    (while (>= all-issues-count (* page per-page))
+      (setq issues (gitlab-list-issues page per-page))
+      (setq all-issues (vconcat all-issues issues))
+      (setq all-issues-count (length all-issues))
+      (setq page (1+ page)))
+    all-issues))
 
 (defun gitlab--get-issue-uri (project-id issue-id)
   "Retrieve URI to retrieve an issue.
@@ -52,17 +67,38 @@ ISSUE-ID : The ID of a project issue"
             "/issues/"
             issue-id))
 
-(defun gitlab-list-project-issues (project-id)
+(defun gitlab-list-project-issues (project-id &optional page per-page)
   "Get a list of project issues.
 
 PROJECT-ID : The ID of a project"
-  (perform-gitlab-request "GET"
-                          (s-concat "projects/"
-                                    (url-hexify-string
-                                     (format "%s" project-id))
-                                    "/issues")
-                          nil
-                          200))
+  (let ((params '()))
+    (add-to-list 'params (cons 'per_page (number-to-string per-page)))
+    (add-to-list 'params (cons 'page (number-to-string page)))
+    (perform-gitlab-request "GET"
+                            (s-concat "projects/"
+                                      (url-hexify-string
+                                       (format "%s" project-id))
+                                      "/issues")
+                            params
+                            200)))
+
+(defun gitlab-list-all-project-issues (project-id &optional page per-page)
+  "Get a list of all PROJECT-ID issues."
+  (interactive)
+  (let* ((page 1)
+         (per-page 100)
+         (issues)
+         (all-issues (gitlab-list-project-issues project-id page per-page))
+         (all-issues-count (length all-issues)))
+    (while (>= all-issues-count (* page per-page))
+      (setq issues (gitlab-list-project-issues project-id page per-page))
+      (setq all-issues (vconcat all-issues issues))
+      (setq all-issues-count (length all-issues))
+      (setq page (1+ page)))
+    all-issues))
+
+
+
 
 (defun gitlab-get-issue (project-id issue-id)
   "Gets a single project issue.

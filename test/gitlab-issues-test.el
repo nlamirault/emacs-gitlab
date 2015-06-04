@@ -32,7 +32,7 @@
   :tags '(issues)
   (with-test-sandbox
    (with-gitlab-session
-    (let ((issues (gitlab-list-issues)))
+    (let ((issues (gitlab-list-issues 1 20)))
       (should (<= 0 (length issues)))
       (mapcar (lambda (i)
                 (should (not (s-blank? (assoc-default 'title i))))
@@ -41,7 +41,7 @@
               issues)))))
 
 (ert-deftest test-list-project-issues ()
-  :tags '(issues)
+  :tags '(issues current)
   (with-test-sandbox
    (with-gitlab-session
     (let ((issues (gitlab-list-project-issues gitlab-project-id)))

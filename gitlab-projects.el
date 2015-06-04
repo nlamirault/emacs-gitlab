@@ -30,9 +30,34 @@
 (require 'gitlab-utils)
 
 
-(defun gitlab-list-projects ()
-  "Get a list of projects accessible by the authenticated user."
-  (perform-gitlab-request "GET" "projects" nil 200))
+(defun gitlab-list-projects (&optional page per-page)
+  "Get a list of projects accessible by the authenticated user.
+PAGE: current page number
+PER-PAGE: number of items on page max 100"
+  (let* ((params '()))
+    (when page
+      (add-to-list 'params (cons 'per_page (number-to-string per-page))))
+    (when per-page
+      (add-to-list 'params (cons 'page (number-to-string page))))
+    (perform-gitlab-request "GET"
+                            "projects"
+                            params
+                            200)))
+
+(defun gitlab-list-all-projects ()
+  "Get a list of all projects accessible by the authenticated user."
+  (interactive)
+    (let* ((page 1)
+           (per-page 100)
+           (projects)
+           (all-projects (gitlab-list-projects page per-page))
+           (all-projects-count (length all-projects)))
+      (while (>= all-projects-count (* page per-page))
+        (setq projects (gitlab-list-projects page per-page))
+        (setq all-projects (vconcat all-projects projects))
+        (setq all-projects-count (length all-projects))
+        (setq page (1+ page)))
+      all-projects))
 
 
 (defun gitlab-list-owned-projects ()

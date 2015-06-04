@@ -1,5 +1,12 @@
 # emacs-gitlab ChangeLog
 
+## Version 0.5 (06/04/2015)
+
+- ``FIX`` Unit tests on issues API
+- ``FIX`` List projects without page parameters
+- ``#20``: List all issues and projects (pagination refactoring) (Thanks [marcinant][])
+- ``#19``: Feature/extend gitlab mode (Thanks [marcinant][])
+
 ## Version 0.4 (05/29/2015)
 
 - Initial support for Users API (Thanks [marcinant][])

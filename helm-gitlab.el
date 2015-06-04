@@ -107,7 +107,7 @@
 (defun helm-gitlab--projects-init ()
   (when (s-blank? gitlab-token-id)
     (gitlab-login))
-  (let ((projects (gitlab-list-projects)))
+  (let ((projects (gitlab-list-all-projects)))
     (mapcar (lambda (p)
               (cons (format "%s" (propertize (assoc-default 'name p)
                                              'face
@@ -146,7 +146,7 @@
 (defun helm-gitlab--issues-init ()
   (when (s-blank? gitlab-token-id)
     (gitlab-login))
-  (let ((issues (gitlab-list-issues)))
+  (let ((issues (gitlab-list-all-issues)))
     (mapcar (lambda (i)
               (cons (format "[%s] %s [%s]"
                             (assoc-default 'id i)

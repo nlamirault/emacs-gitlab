@@ -85,7 +85,7 @@
   (let* ((project (gitlab-get-project (tabulated-list-get-id))))
     (browse-url (assoc-default 'web_url project))))
 
-
+;;;###autoload
 (defun gitlab-show-project-description (project)
   "Doc string PROJECT."
   (interactive)
@@ -142,6 +142,7 @@ If optional arg BUTTON is non-nil, describe its associated project."
       (user-error "No project here"))))
 
 
+>>>>>>> develop
 (defun gitlab-show-projects ()
   "Show Gitlab projects."
   (interactive)
@@ -189,6 +190,7 @@ If optional arg BUTTON is non-nil, describe its associated project."
                      (assoc-default 'title i)))))
           issues))
 
+;;;###autoload
 (defun gitlab-show-issues ()
   "Show Gitlab issues."
   (interactive)

@@ -35,8 +35,10 @@
 PAGE: current page number
 PER-PAGE: number of items on page max 100"
   (let* ((params '()))
-    (add-to-list 'params (cons 'per_page (number-to-string per-page)))
-    (add-to-list 'params (cons 'page (number-to-string page)))
+    (when page
+      (add-to-list 'params (cons 'per_page (number-to-string per-page))))
+    (when per-page
+      (add-to-list 'params (cons 'page (number-to-string page))))
     (perform-gitlab-request "GET"
                             "projects"
                             params

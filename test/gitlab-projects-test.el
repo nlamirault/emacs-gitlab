@@ -55,7 +55,7 @@
               projects)))))
 
 (ert-deftest test-get-project ()
-  :tags '(projects current)
+  :tags '(projects)
   (with-test-sandbox
    (with-gitlab-session
     (let ((project (gitlab-get-project gitlab-project-id)))

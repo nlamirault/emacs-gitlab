@@ -32,8 +32,8 @@
 
 (defun gitlab-list-issues (page per-page)
   "Get all issues created by authenticated user.
-STATE Return all issues or just those that are opened or closed
-LABELS - Comma-separated list of label names"
+PAGE: current page number
+PER-PAGE: number of items on page max 100"
   (let ((params '()))
     (add-to-list 'params (cons 'per_page (number-to-string per-page)))
     (add-to-list 'params (cons 'page (number-to-string page)))
@@ -69,11 +69,14 @@ ISSUE-ID : The ID of a project issue"
 
 (defun gitlab-list-project-issues (project-id &optional page per-page)
   "Get a list of project issues.
-
-PROJECT-ID : The ID of a project"
+PROJECT-ID : The ID of a project
+PAGE: current page number
+PER-PAGE: number of items on page max 100"
   (let ((params '()))
-    (add-to-list 'params (cons 'per_page (number-to-string per-page)))
-    (add-to-list 'params (cons 'page (number-to-string page)))
+    (when page
+      (add-to-list 'params (cons 'per_page (number-to-string per-page))))
+    (when per-page
+      (add-to-list 'params (cons 'page (number-to-string page))))
     (perform-gitlab-request "GET"
                             (s-concat "projects/"
                                       (url-hexify-string
@@ -83,7 +86,10 @@ PROJECT-ID : The ID of a project"
                             200)))
 
 (defun gitlab-list-all-project-issues (project-id &optional page per-page)
-  "Get a list of all PROJECT-ID issues."
+  "Get a list of all PROJECT-ID issues.
+PROJECT-ID : The ID of a project
+PAGE: current page number
+PER-PAGE: number of items on page max 100"
   (interactive)
   (let* ((page 1)
          (per-page 100)
@@ -96,8 +102,6 @@ PROJECT-ID : The ID of a project"
       (setq all-issues-count (length all-issues))
       (setq page (1+ page)))
     all-issues))
-
-
 
 
 (defun gitlab-get-issue (project-id issue-id)
@@ -145,10 +149,11 @@ LABELS comma-separated list label names"
   "Create a project issue.
 
 PROJECT-ID the ID or NAMESPACE%2FPROJECT_NAME of a project
+ISSUE-ID : The ID of a project issue
 TITLE issue title
 DESCRIPTION issue description
-ASSIGNEE assignee ID
-MILESTONE milestone ID
+ASSIGNEE-ID assignee ID
+MILESTONE-ID milestone ID
 LABELS comma-separated list label names"
   (lwarn '(gitlab) :debug "UPDATE ISSUE in project: %s\n" project-id)
   (perform-gitlab-request "PUT"

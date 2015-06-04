@@ -27,7 +27,7 @@
 (ert-deftest test-list-projects-without-session ()
   :tags '(projects)
   (with-test-sandbox
-   (should-error (gitlab-list-projects))))
+   (gitlab-list-projects)))
 
 (ert-deftest test-list-projects ()
   :tags '(projects)

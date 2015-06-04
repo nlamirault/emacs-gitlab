@@ -69,18 +69,20 @@ management. Install it and retrieve dependencies :
 
 * Setup your Gitlab informations :
 
-        $ export GITLAB_HOST="http://gitlab.foo.com"
-        $ export GITLAB_USERNAME="foo"
-        $ export GITLAB_PASSWORD="bar"
-        $ export GITLAB_TOKEN_ID="xxxxxxxxxxxxxx"
-        $ export GITLAB_PROJECT_ID=111222
-        $ export GITLAB_PROJECT_NAME="myproject"
-        $ export GITLAB_PROJECT_DESCRIPTION="a project description"
-        $ export GITLAB_ISSUE_ID=145645
-        $ export GITLAB_ISSUE_TITLE="the issue title"
+        $ cat $HOME/.emacs-gitlab.rc
+        #!/bin/bash
+        export GITLAB_HOST="https://gitlab.com"
+        export GITLAB_USERNAME="yourusername"
+        export GITLAB_PASSWORD="yourpassword"
+        export GITLAB_PROJECT_ID=111222
+        export GITLAB_PROJECT_NAME="myproject"
+        export GITLAB_PROJECT_DESCRIPTION="a project description"
+        export GITLAB_ISSUE_ID=145645
+        export GITLAB_ISSUE_TITLE="the issue title"
 
 * Launch unit tests :
 
+        $ . $HOME/.emacs-gitlab.rc
         $ make clean test
 
 
@@ -103,6 +105,8 @@ See [LICENSE](LICENSE).
 ## Contact
 
 Nicolas Lamirault <nicolas.lamirault@gmail.com>
+
+
 
 [emacs-gitlab]: https://github.com/nlamirault/emacs-gitlab
 [badge-license]: https://img.shields.io/badge/license-GPL_2-green.svg?style=flat

@@ -142,7 +142,6 @@ If optional arg BUTTON is non-nil, describe its associated project."
       (user-error "No project here"))))
 
 
->>>>>>> develop
 (defun gitlab-show-projects ()
   "Show Gitlab projects."
   (interactive)

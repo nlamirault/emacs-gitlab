@@ -98,7 +98,7 @@ PROJECT-ID is The ID or NAMESPACE/PROJECT_NAME of a project."
   (perform-gitlab-request "POST"
                           (format "projects/%s"
                                   (url-hexify-string
-                                   (format "%s" project-id)))
+                                   (format "%s" project-name)))
                           nil
                           201))
 

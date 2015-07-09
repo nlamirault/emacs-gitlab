@@ -71,7 +71,10 @@
   "Load current library from FILE."
   (let ((path (s-concat gitlab-source-dir file)))
     (message (ansi-yellow "[gitlab] Load library from %s" path))
-    (undercover "*.el" (:exclude "*-test.el"))
+    (undercover "*.el" "scame/*.el"
+                (:exclude "*-test.el")
+                (:send-report nil)
+                (:report-file "/tmp/undercover-report.json"))
     (require 'gitlab path)))
 
 

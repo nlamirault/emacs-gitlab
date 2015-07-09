@@ -14,14 +14,56 @@ Emacs package `gitlab` provides :
 
 ## Installation
 
-The recommended way to install ``gitlab`` is via [MELPA][]:
+### Installation via package.el
 
-    M-x package-install gitlab
+`package.el` is the built-in package manager in Emacs.
 
-or [Cask][]:
+emacs-gitlab is available on the two major community maintained repositories -
+[MELPA STABLE](melpa-stable.milkbox.net), [MELPA](http://melpa.milkbox.net).
 
-	(depends-on "gitlab")
+You can install `emacs-gitlab` with the following commnad:
 
+<kbd>M-x package-install [RET] gitlab [RET]</kbd>
+
+or by adding this bit of Emacs Lisp code to your Emacs initialization file
+(`.emacs` or `init.el`):
+
+```el
+(unless (package-installed-p 'gitlab)
+  (package-install 'gitlab))
+```
+
+If the installation doesn't work try refreshing the package list:
+
+<kbd>M-x package-refresh-contents [RET]</kbd>
+
+Keep in mind that MELPA packages are built automatically from
+the `master` branch, meaning bugs might creep in there from time to
+time. Never-the-less, installing from MELPA is the recommended way of
+obtaining emacs-gitlab, as the `master` branch is normally quite stable and
+"stable" (tagged) builds are released somewhat infrequently.
+
+With the most recent builds of Emacs, you can pin emacs-gitlab to always
+use MELPA Stable by adding this to your Emacs initialization:
+
+```el
+(add-to-list 'package-pinned-packages '(gitlab . "melpa-stable") t)
+```
+
+### Via el-get
+
+[el-get](https://github.com/dimitri/el-get) is another popular package manager for Emacs. If you're an el-get
+user just do <kbd>M-x el-get-install [RET] gitlab [RET]</kbd>.
+
+### Manual
+
+You can install emacs-gitlab manually by placing it on your `load-path` and
+`require` ing it. Many people favour the folder `~/.emacs.d/vendor`.
+
+```el
+(add-to-list 'load-path "~/.emacs.d/vendor/")
+(require 'gitlab)
+```
 
 ## Usage
 
@@ -29,14 +71,21 @@ or [Cask][]:
 
         $ (setq gitlab-host "http://mygitlab.com"
                 gitlab-username "foo"
-                gitlab-password "bar"
-                gitlab-token-id "xxxxxxxxxxxx")
+                gitlab-password "bar")
 
 To generate private ``gitlab-token-id`` run:
 
 ```
 $ curl http://yourgitlabhost/api/v3/session/ --data-urlencode 'login=yourUserName' --data-urlencode 'password=yourPassword'
 ```
+
+Then :
+
+    $ (setq gitlab-token-id "xxxxxxxxxxxx")
+
+Or use :
+
+    $ M-x gitlab-login
 
 
 * Show user's projects with helm interface:

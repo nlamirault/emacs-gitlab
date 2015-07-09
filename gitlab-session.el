@@ -32,6 +32,7 @@
 (defun gitlab-login ()
   "Open a session.
 If it works, return the private token to perform HTTP request to Gitlab."
+  (interactive)
   (let ((response
          (gitlab--perform-post-request
           "session"

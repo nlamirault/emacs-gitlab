@@ -1,6 +1,6 @@
 ;;; Scame Cask file
 
-(source "melpa" "http://melpa.milkbox.net/packages/")
+(source "melpa" "http://melpa.org/packages/")
 (source "gnu" "http://elpa.gnu.org/packages/")
 
 (package-file "gitlab.el")

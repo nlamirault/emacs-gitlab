@@ -26,7 +26,7 @@
 (ert-deftest gitlab-library-version ()
   :tags '(version)
   (with-test-sandbox
-  (should (string= "0.4.0" (gitlab--library-version)))))
+  (should (string= "0.6.0" (gitlab--library-version)))))
 
 
 (provide 'gitlab-version-test)

@@ -1,20 +1,25 @@
 # emacs-gitlab ChangeLog
 
-## Version 0.5 (06/04/2015)
+## Version 0.6.0 (08/27/2015)
+
+- Addons for to generate an Org file from Gitlab issues
+- ``#25`` fix-project-add-function (Thanks [marcinant][])
+
+## Version 0.5.0 (06/04/2015)
 
 - ``FIX`` Unit tests on issues API
 - ``FIX`` List projects without page parameters
 - ``#20``: List all issues and projects (pagination refactoring) (Thanks [marcinant][])
 - ``#19``: Feature/extend gitlab mode (Thanks [marcinant][])
 
-## Version 0.4 (05/29/2015)
+## Version 0.4.0 (05/29/2015)
 
 - Initial support for Users API (Thanks [marcinant][])
 - ``FIX`` unit tests on Issues API
 - Support Notes API (Thanks [marcinant][])
 - Support Milestone API (Thanks [marcinant][])
 
-## Version 0.3 (04/19/2015)
+## Version 0.3.0 (04/19/2015)
 
 - ``#8``: Invalid URL for issue project
 - Refactoring unit tests (use [ert-runner][] and [overseer][])

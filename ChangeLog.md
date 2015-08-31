@@ -1,6 +1,6 @@
 # emacs-gitlab ChangeLog
 
-## Version 0.6.0 (08/27/2015)
+## Version 0.6.0 (08/31/2015)
 
 - Addons for to generate an Org file from Gitlab issues
 - ``#25`` fix-project-add-function (Thanks [marcinant][])

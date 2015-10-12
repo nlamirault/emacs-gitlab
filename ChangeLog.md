@@ -1,5 +1,9 @@
 # emacs-gitlab ChangeLog
 
+## Version 0.7.0 (10/12/2015)
+
+- Setup continuous integration using CircleCI
+
 ## Version 0.6.0 (08/31/2015)
 
 - Addons for to generate an Org file from Gitlab issues

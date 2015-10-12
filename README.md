@@ -1,16 +1,17 @@
 # emacs-gitlab
 
 [![License GPL 3][badge-license]][LICENSE]
-[![travis][badge-travis]][travis]
-[![drone][badge-drone]][drone]
-[![Melpa Status](http://melpa.milkbox.net/packages/gitlab-badge.svg)](http://melpa.milkbox.net/#/gitlab)
-[![MELPA Stable](http://stable.melpa.org/packages/gitlab-badge.svg)](http://stable.melpa.org/#/gitlab)
 [![Coverage Status](https://coveralls.io/repos/nlamirault/emacs-gitlab/badge.png)](https://coveralls.io/r/nlamirault/emacs-gitlab)
 
+Master :
+* [![MELPA Stable](http://stable.melpa.org/packages/gitlab-badge.svg)](http://stable.melpa.org/#/gitlab)
+* [![Circle CI](https://circleci.com/gh/nlamirault/emacs-gitlab/tree/master.svg?style=svg)](https://circleci.com/gh/nlamirault/emacs-gitlab/tree/master)
 
-Emacs package `gitlab` provides :
-* a REST client to the [Gitlab][] API
-* a [Helm][] interface
+Develop:
+* [![Melpa Status](http://melpa.milkbox.net/packages/gitlab-badge.svg)](http://melpa.milkbox.net/#/gitlab)
+* [![Circle CI](https://circleci.com/gh/nlamirault/emacs-gitlab/tree/develop.svg?style=svg)](https://circleci.com/gh/nlamirault/emacs-gitlab/tree/develop)
+
+Package `gitlab` provides a REST client to the [Gitlab][] API.
 
 ## Installation
 

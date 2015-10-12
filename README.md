@@ -1,16 +1,17 @@
 # emacs-gitlab
 
 [![License GPL 3][badge-license]][LICENSE]
-[![travis][badge-travis]][travis]
-[![drone][badge-drone]][drone]
-[![Melpa Status](http://melpa.milkbox.net/packages/gitlab-badge.svg)](http://melpa.milkbox.net/#/gitlab)
-[![MELPA Stable](http://stable.melpa.org/packages/gitlab-badge.svg)](http://stable.melpa.org/#/gitlab)
 [![Coverage Status](https://coveralls.io/repos/nlamirault/emacs-gitlab/badge.png)](https://coveralls.io/r/nlamirault/emacs-gitlab)
 
+Master :
+* [![MELPA Stable](http://stable.melpa.org/packages/gitlab-badge.svg)](http://stable.melpa.org/#/gitlab)
+* [![Circle CI](https://circleci.com/gh/nlamirault/emacs-gitlab/tree/master.svg?style=svg)](https://circleci.com/gh/nlamirault/emacs-gitlab/tree/master)
 
-Emacs package `gitlab` provides :
-* a REST client to the [Gitlab][] API
-* a [Helm][] interface
+Develop:
+* [![Melpa Status](http://melpa.milkbox.net/packages/gitlab-badge.svg)](http://melpa.milkbox.net/#/gitlab)
+* [![Circle CI](https://circleci.com/gh/nlamirault/emacs-gitlab/tree/develop.svg?style=svg)](https://circleci.com/gh/nlamirault/emacs-gitlab/tree/develop)
+
+Package `gitlab` provides a REST client to the [Gitlab][] API.
 
 ## Installation
 
@@ -21,7 +22,7 @@ Emacs package `gitlab` provides :
 emacs-gitlab is available on the two major community maintained repositories -
 [MELPA STABLE](melpa-stable.milkbox.net), [MELPA](http://melpa.milkbox.net).
 
-You can install `emacs-gitlab` with the following commnad:
+You can install `gitlab` with the following commnad:
 
 <kbd>M-x package-install [RET] gitlab [RET]</kbd>
 
@@ -106,8 +107,8 @@ Or use :
 
 ### Cask
 
-``emacs-gitlab`` use [Cask][] for dependencies
-management. Install it and retrieve dependencies :
+``gitlab`` use [Cask][] for dependencies management.
+Install it and retrieve dependencies :
 
     $ curl -fsSkL https://raw.github.com/cask/cask/master/go | python
     $ export PATH="$HOME/.cask/bin:$PATH"

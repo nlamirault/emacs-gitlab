@@ -9,7 +9,7 @@ try to follow these guidelines when you do so.
 
 * Check that the issue has not already been reported.
 * Check that the issue has not already been fixed in the latest code
-  (a.k.a. `master`).
+  (a.k.a. `develop`).
 * Be clear, concise and precise in your description of the problem.
 * Open an issue with a descriptive title and a summary in grammatically correct,
   complete sentences.

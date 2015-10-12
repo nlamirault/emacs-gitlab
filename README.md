@@ -22,7 +22,7 @@ Package `gitlab` provides a REST client to the [Gitlab][] API.
 emacs-gitlab is available on the two major community maintained repositories -
 [MELPA STABLE](melpa-stable.milkbox.net), [MELPA](http://melpa.milkbox.net).
 
-You can install `emacs-gitlab` with the following commnad:
+You can install `gitlab` with the following commnad:
 
 <kbd>M-x package-install [RET] gitlab [RET]</kbd>
 
@@ -107,8 +107,8 @@ Or use :
 
 ### Cask
 
-``emacs-gitlab`` use [Cask][] for dependencies
-management. Install it and retrieve dependencies :
+``gitlab`` use [Cask][] for dependencies management.
+Install it and retrieve dependencies :
 
     $ curl -fsSkL https://raw.github.com/cask/cask/master/go | python
     $ export PATH="$HOME/.cask/bin:$PATH"

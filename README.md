@@ -74,20 +74,9 @@ You can install emacs-gitlab manually by placing it on your `load-path` and
                 gitlab-username "foo"
                 gitlab-password "bar")
 
-To generate private ``gitlab-token-id`` run:
+* Open a session :
 
-```
-$ curl http://yourgitlabhost/api/v3/session/ --data-urlencode 'login=yourUserName' --data-urlencode 'password=yourPassword'
-```
-
-Then :
-
-    $ (setq gitlab-token-id "xxxxxxxxxxxx")
-
-Or use :
-
-    $ M-x gitlab-login
-
+        $ M-x gitlab-login
 
 * Show user's projects with helm interface:
 

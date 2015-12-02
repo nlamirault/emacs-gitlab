@@ -4,11 +4,11 @@
 [![Coverage Status](https://coveralls.io/repos/nlamirault/emacs-gitlab/badge.png)](https://coveralls.io/r/nlamirault/emacs-gitlab)
 
 Master :
-* [![MELPA Stable](http://stable.melpa.org/packages/gitlab-badge.svg)](http://stable.melpa.org/#/gitlab)
+* [![MELPA Stable](https://stable.melpa.org/packages/gitlab-badge.svg)](https://stable.melpa.org/#/gitlab)
 * [![Circle CI](https://circleci.com/gh/nlamirault/emacs-gitlab/tree/master.svg?style=svg)](https://circleci.com/gh/nlamirault/emacs-gitlab/tree/master)
 
 Develop:
-* [![Melpa Status](http://melpa.milkbox.net/packages/gitlab-badge.svg)](http://melpa.milkbox.net/#/gitlab)
+* [![Melpa Status](https://melpa.org/packages/gitlab-badge.svg)](https://melpa.org/#/gitlab)
 * [![Circle CI](https://circleci.com/gh/nlamirault/emacs-gitlab/tree/develop.svg?style=svg)](https://circleci.com/gh/nlamirault/emacs-gitlab/tree/develop)
 
 Package `gitlab` provides a REST client to the [Gitlab][] API.
@@ -74,20 +74,9 @@ You can install emacs-gitlab manually by placing it on your `load-path` and
                 gitlab-username "foo"
                 gitlab-password "bar")
 
-To generate private ``gitlab-token-id`` run:
+* Open a session :
 
-```
-$ curl http://yourgitlabhost/api/v3/session/ --data-urlencode 'login=yourUserName' --data-urlencode 'password=yourPassword'
-```
-
-Then :
-
-    $ (setq gitlab-token-id "xxxxxxxxxxxx")
-
-Or use :
-
-    $ M-x gitlab-login
-
+        $ M-x gitlab-login
 
 * Show user's projects with helm interface:
 
@@ -165,8 +154,9 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 [badge-travis]: http://img.shields.io/travis/nlamirault/emacs-gitlab.svg?style=flat
 [badge-drone]: https://drone.io/github.com/nlamirault/emacs-gitlab/status.png
 [drone]: https://drone.io/github.com/nlamirault/emacs-gitlab/latest
+
 [GNU Emacs]: https://www.gnu.org/software/emacs/
-[MELPA]: http://melpa.milkbox.net/
+[MELPA]: https://melpa.org
 [Cask]: http://cask.github.io/
 [Issue tracker]: https://github.com/nlamirault/emacs-gitlab/issues
 

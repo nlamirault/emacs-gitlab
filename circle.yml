@@ -11,4 +11,4 @@ dependencies:
     - curl -fsSkL "https://raw.github.com/cask/cask/master/go" | python
 test:
   override:
-    - PATH="${HOME}/.cask/bin:$PATH" make test
+    - PATH="${HOME}/.cask/bin:$PATH" make init test

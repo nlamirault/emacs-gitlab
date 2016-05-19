@@ -1,5 +1,10 @@
 # emacs-gitlab ChangeLog
 
+## Version 0.8.0 (05/19/2016)
+
+- ``#33``: Add Ivy support
+- ``#27``: Documentation
+
 ## Version 0.7.0 (10/12/2015)
 
 - Setup continuous integration using CircleCI

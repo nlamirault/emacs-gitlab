@@ -27,23 +27,23 @@
 
 ;; Faces
 
-(defface helm-gitlab--title
+(defface gitlab--title
   '((((class color) (background light)) :foreground "red" :weight semi-bold)
     (((class color) (background dark)) :foreground "green" :weight semi-bold))
   "face of Gitlab information"
   :group 'helm-gitlab)
 
-(defface helm-gitlab--red-face
+(defface gitlab--red-face
   '((((class color)) :foreground "#cd4d40"))
   "Red color.."
   :group 'helm-gitlab)
 
-(defface helm-gitlab--green-face
+(defface gitlab--green-face
   '((((class color)) :foreground "#61b361"))
   "Green color."
   :group 'helm-gitlab)
 
-(defface helm-gitlab--yellow-face
+(defface gitlab--yellow-face
   '((((class color)) :foreground "#e7e24c"))
   "Yellow color."
   :group 'helm-gitlab)
@@ -51,11 +51,11 @@
 (defun colorize-dot (color)
   (cond
    ((string= color  "red")
-    (propertize "●" 'face 'helm-gitlab--red-face))
+    (propertize "●" 'face 'gitlab--red-face))
    ((string= color "yellow")
-    (propertize "●" 'face 'helm-gitlab--yellow-face))
+    (propertize "●" 'face 'gitlab--yellow-face))
    ((string= color  "green")
-    (propertize "●" 'face 'helm-gitlab--green-face))
+    (propertize "●" 'face 'gitlab--green-face))
    (t (concat "Unknown: " "'" color "' "))))
 
 

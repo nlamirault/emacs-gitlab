@@ -56,6 +56,8 @@
 ;; Gitlab library
 
 (require 'gitlab-version)
+(require 'gitlab-api)
+(require 'gitlab-http)
 (require 'gitlab-utils)
 (require 'gitlab-session)
 (require 'gitlab-projects)

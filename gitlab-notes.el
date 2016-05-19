@@ -26,7 +26,8 @@
 
 (require 's)
 
-(require 'gitlab-utils)
+(require 'gitlab-http)
+
 
 (defun gitlab--get-notes-uri (project-id issue-id)
   "Compose notes URI for PROJECT-ID with ISSUE-ID."

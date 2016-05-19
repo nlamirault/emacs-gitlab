@@ -25,9 +25,10 @@
 
 ;;; Code:
 
+(require 'dash)
 (require 's)
 
-(require 'gitlab-utils)
+(require 'gitlab-http)
 
 
 (defun gitlab-list-projects (&optional page per-page)
@@ -111,6 +112,19 @@ Sorted from newest to latest."
                                    (format "%s" project-id)))
                           nil
                           200))
+
+(defun gitlab-projects--get-issue-link (project-id issue-id)
+  "Create the URL to show a project's issue.
+`PROJECT-ID' is the project ID
+`ISSUE-ID' is the issue ID."
+  (-when-let (project (gitlab-get-project project-id))
+    (s-concat (gitlab--get-host)
+              "/"
+              (assoc-default 'path_with_namespace project)
+              "/issues/"
+              (number-to-string issue-id))))
+
+
 
 (provide 'gitlab-projects)
 ;;; gitlab-projects.el ends here

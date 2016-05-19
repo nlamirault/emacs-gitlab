@@ -64,7 +64,7 @@
   (let* ((project (gitlab-get-project (button-get button 'project-id)))
          (name (assoc-default 'path project))
          (repo (assoc-default 'ssh_url_to_repo project))
-         (target-dir (read-directory-name "Clone to directory:" (first query-replace-defaults))))
+         (target-dir (read-directory-name "Clone to directory:" (car query-replace-defaults))))
 
     (if (file-directory-p (expand-file-name name target-dir))
         (progn

@@ -21,13 +21,8 @@
 
 ;;; Code:
 
-(require 'json)
-
 (require 'dash)
-(require 'request)
 (require 's)
-
-(require 'gitlab-api)
 
 
 ;; Errors
@@ -58,104 +53,6 @@ Defaults to `error'."
 (define-error 'gitlab-error "Gitlab error")
 
 (define-error 'gitlab-http-error "HTTP Error" 'gitlab-error)
-
-
-;; HTTP tools
-
-(defun gitlab--get-rest-uri (uri)
-  "Retrieve the Gitlab API complete url using the API version.
-`URI` is the api path."
-  (if (gitlab--get-host)
-      (s-concat (gitlab--get-host) "/api/" gitlab-api-version "/" uri)
-    (error (signal 'gitlab-error '("Gitlab host unknown.")))))
-
-
-(defun gitlab--get-headers ()
-  "Return the HTTP headers for Gitlab API."
-  ;;(if (not (s-blank? gitlab-token-id))
-  (list (cons "PRIVATE-TOKEN" gitlab-token-id)
-        (cons "connection" "close")))
-    ;;nil))
-
-
-(defun gitlab--perform-get-request (uri params)
-  "Doc string URI PARAMS."
-  (let* ((response (request (gitlab--get-rest-uri uri)
-                            :type "GET"
-                            :headers (gitlab--get-headers)
-                            :sync t
-                            :params params
-                            ;;:data params
-                            :parser 'json-read)))
-    response))
-
-(defun gitlab--perform-post-request (uri params)
-  "Doc string URI PARAMS."
-  (let ((response (request (gitlab--get-rest-uri uri)
-                           :type "POST"
-                           :headers (gitlab--get-headers)
-                           :sync t
-                           :data params
-                           :parser 'json-read)))
-    response))
-
-(defun gitlab--perform-put-request (uri params)
-  "Doc string URI PARAMS."
-  (let ((response (request (gitlab--get-rest-uri uri)
-                           :type "PUT"
-                           :headers (gitlab--get-headers)
-                           :sync t
-                           :data params
-                           :parser 'json-read)))
-    response))
-
-
-(defun perform-gitlab-request (type uri params status-code)
-  "Doc string TYPE URI PARAMS STATUS-CODE."
-  (let ((response
-         (cond ((string= type "POST")
-		(gitlab--perform-post-request uri params))
-	       ((string= type "GET")
-		(gitlab--perform-get-request uri params))
-	       ((string= type "PUT")
-		(gitlab--perform-put-request uri params)))))
-    (if (= status-code (request-response-status-code response))
-        (request-response-data response)
-      (lwarn '(gitlab)
-             :error "HTTP %s Error %s on URI: %s"
-             type
-             (request-response-status-code response)
-             uri))))
-
-
-;; (defmacro with-gitlab-request (uri params status-code response-data &rest body)
-;;   "Execute the forms in BODY using URI and PARAMS for HTTP request.
-;; If HTTP response code isn't STATUS-CODE, raise a `gitlab-http-error'.
-;; Otherwise set RESPONSE-DATA to HTTP response content."
-;;   `(let ((response
-;;          (gitlab--perform-get-request ,uri ,params)))
-;;     (if (= ,status-code (request-response-status-code response))
-;;         (let ((,response-data (request-response-data response)))
-;;           ,@body)
-;;       (error
-;;        (signal 'gitlab-http-error
-;;                (list (request-response-status-code response)
-;;                      (request-response-data response)))))))
-
-
-;; Tools
-;; -------
-
-(defun gitlab-utils--get-issue-link (project-id issue-id)
-  "Create the URL to show a project's issue.
-`PROJECT-ID' is the project ID
-`ISSUE-ID' is the issue ID."
-  (-when-let (project (gitlab-get-project project-id))
-    (s-concat (gitlab--get-host)
-              "/"
-              (assoc-default 'path_with_namespace project)
-              "/issues/"
-              (number-to-string issue-id))))
 
 
 (provide 'gitlab-utils)

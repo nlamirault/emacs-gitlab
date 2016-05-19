@@ -27,7 +27,7 @@
 
 (require 's)
 
-(require 'gitlab-utils)
+(require 'gitlab-http)
 
 
 (defvar gitlab-group-access-levels

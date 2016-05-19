@@ -26,7 +26,7 @@
 
 (require 's)
 
-(require 'gitlab-utils)
+(require 'gitlab-http)
 
 (defun gitlab-list-project-milestones (project-id)
   "Get a list of project milestones.

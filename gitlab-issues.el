@@ -27,7 +27,7 @@
 
 (require 's)
 
-(require 'gitlab-utils)
+(require 'gitlab-http)
 
 
 (defun gitlab-list-issues (page per-page)

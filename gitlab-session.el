@@ -24,6 +24,7 @@
 
 ;;; Code:
 
+(require 'gitlab-http)
 (require 'gitlab-utils)
 
 

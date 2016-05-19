@@ -52,7 +52,6 @@
 (require 'gitlab-projects)
 (require 'gitlab-issues)
 (require 'gitlab-ui)
-(require 'gitlab-utils)
 
 
 ;; UI
@@ -63,8 +62,6 @@
     (((class color) (background dark)) :foreground "green" :weight semi-bold))
   "face of Gitlab information"
   :group 'helm-gitlab)
-
-
 
 
 ;; Core
@@ -152,7 +149,7 @@
 
 (defun helm-gitlab--issue-browse-link (cand)
   (browse-url
-   (gitlab-utils--get-issue-link (plist-get cand :project-id)
+   (gitlab-projects--get-issue-link (plist-get cand :project-id)
                                  (plist-get cand :issue-id))))
 
 

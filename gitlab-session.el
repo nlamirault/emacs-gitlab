@@ -1,6 +1,6 @@
 ;;; gitlab-session.el --- Session API
 
-;; Copyright (C) 2014, 2015 Nicolas Lamirault <nicolas.lamirault@gmail.com>
+;; Copyright (C) 2014, 2015, 2016 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License
@@ -49,13 +49,14 @@ If it works, return the private token to perform HTTP request to Gitlab."
                (list (request-response-status-code response)
                      (request-response-data response)))))))
 
-;; FIXME
-;; (defmacro with-gitlab-auth (&rest body)
-;;   "Macro which check authentication token.
-;; If not, perform a request to Gitlab to login. Then executes BODY."
-;;   (when (s-blank? gitlab-token-id)
-;;     (gitlab-login)
-;;     ,@body))
+(defmacro with-gitlab-auth (&rest body)
+  "Macro which check authentication token.
+If not, perform a request to Gitlab to login.
+Then executes `BODY'."
+  `(progn
+     (when (s-blank? gitlab-token-id)
+       (gitlab-login))
+     ,@body))
 
 
 (provide 'gitlab-session)

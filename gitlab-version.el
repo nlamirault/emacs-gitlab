@@ -1,6 +1,6 @@
 ;;; gitlab-version.el --- Gitlab Emacs client version
 
-;; Copyright (C) 2014 Nicolas Lamirault <nicolas.lamirault@gmail.com>
+;; Copyright (C) 2014, 2015, 2016 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License
@@ -23,6 +23,7 @@
 
 (require 'dash)
 (require 'pkg-info)
+(require 's)
 
 
 (defun gitlab--library-version ()
@@ -30,11 +31,23 @@
   (-when-let (version (pkg-info-library-version 'gitlab))
     (pkg-info-format-version version)))
 
-;; (defun gitlab--package-version ()
-;;   "Get the package version of emacs-gitlab.
-;; This is the version number of the installed emacs-gitlab package."
-;;   (-when-let (version (pkg-info-package-version 'emacs-gitlab-mode))
-;;     (pkg-info-format-version version)))
+
+;;;###autoload
+(defun gitlab-version (&optional show-version)
+  "Get the gitlab version as string.
+If called interactively or if SHOW-VERSION is non-nil, show the
+version in the echo area and the messages buffer.
+The returned string includes both, the version from package.el
+and the library version, if both a present and different.
+If the version number could not be determined, signal an error,
+if called interactively, or if SHOW-VERSION is non-nil, otherwise
+just return nil."
+  (interactive (list (not (or executing-kbd-macro noninteractive))))
+  (let* ((version (gitlab--library-version)))
+    (unless version
+      (error "Could not find out gitlab version"))
+    (message "gitlab %s" version)
+    version))
 
 
 (provide 'gitlab-version)

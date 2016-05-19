@@ -7,6 +7,7 @@
 (files "*.el" (:exclude ".dir-locals.el"))
 
 (depends-on "helm" "1.0")
+(depends-on "ivy" "0.8.0")
 
 ;; Development
 (development

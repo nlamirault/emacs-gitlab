@@ -1,6 +1,6 @@
 ;;; gitlab-utils.el --- some tools
 
-;; Copyright (C) 2014, 2015 Nicolas Lamirault <nicolas.lamirault@gmail.com>
+;; Copyright (C) 2014, 2015, 2016 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License
@@ -22,9 +22,10 @@
 ;;; Code:
 
 (require 'json)
+
+(require 'dash)
 (require 'request)
 (require 's)
-
 
 (require 'gitlab-api)
 
@@ -140,6 +141,21 @@ Defaults to `error'."
 ;;        (signal 'gitlab-http-error
 ;;                (list (request-response-status-code response)
 ;;                      (request-response-data response)))))))
+
+
+;; Tools
+;; -------
+
+(defun gitlab-utils--get-issue-link (project-id issue-id)
+  "Create the URL to show a project's issue.
+`PROJECT-ID' is the project ID
+`ISSUE-ID' is the issue ID."
+  (-when-let (project (gitlab-get-project project-id))
+    (s-concat (gitlab--get-host)
+              "/"
+              (assoc-default 'path_with_namespace project)
+              "/issues/"
+              (number-to-string issue-id))))
 
 
 (provide 'gitlab-utils)

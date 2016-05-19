@@ -60,7 +60,7 @@
 (defface helm-gitlab--title
   '((((class color) (background light)) :foreground "red" :weight semi-bold)
     (((class color) (background dark)) :foreground "green" :weight semi-bold))
-  "face of Gitlab information"
+  "Face of Gitlab information"
   :group 'helm-gitlab)
 
 
@@ -68,20 +68,19 @@
 ;; ------
 
 (defun helm-gitlab--project-issues-init (project-id)
-  (when (s-blank? gitlab-token-id)
-    (gitlab-login))
-  (let ((issues (gitlab-list-project-issues project-id)))
-    (mapcar (lambda (i)
-              (cons (format "[%s] %s [%s]"
-                            (assoc-default 'id i)
-                            (propertize (assoc-default 'title i)
-                                        'face
-                                        'helm-gitlab--title)
-                            (assoc-default 'state i))
-                    (list :project-id (assoc-default 'project_id i)
-                          :issue-id (assoc-default 'id i)
-                          :name (assoc-default 'title i))))
-            issues)))
+  (with-gitlab-auth
+   (let ((issues (gitlab-list-project-issues project-id)))
+     (mapcar (lambda (i)
+               (cons (format "[%s] %s [%s]"
+                             (assoc-default 'id i)
+                             (propertize (assoc-default 'title i)
+                                         'face
+                                         'helm-gitlab--title)
+                             (assoc-default 'state i))
+                     (list :project-id (assoc-default 'project_id i)
+                           :issue-id (assoc-default 'id i)
+                           :name (assoc-default 'title i))))
+             issues))))
 
 
 (defvar helm-gitlab--project-issues-source
@@ -92,17 +91,16 @@
 
 
 (defun helm-gitlab--projects-init ()
-  (when (s-blank? gitlab-token-id)
-    (gitlab-login))
-  (let ((projects (gitlab-list-all-projects)))
-    (mapcar (lambda (p)
-              (cons (format "%s" (propertize (assoc-default 'name p)
-                                             'face
-                                             'helm-gitlab--title))
-                    (list :page (assoc-default 'web_url p)
-                          :name (assoc-default 'name p)
-                          :project-id (assoc-default 'id p))))
-            projects)))
+  (with-gitlab-auth
+   (let ((projects (gitlab-list-all-projects)))
+     (mapcar (lambda (p)
+               (cons (format "%s" (propertize (assoc-default 'name p)
+                                              'face
+                                              'helm-gitlab--title))
+                     (list :page (assoc-default 'web_url p)
+                           :name (assoc-default 'name p)
+                           :project-id (assoc-default 'id p))))
+             projects))))
 
 
 (defun helm-gitlab--project-browse-page (cast)
@@ -131,20 +129,19 @@
 
 
 (defun helm-gitlab--issues-init ()
-  (when (s-blank? gitlab-token-id)
-    (gitlab-login))
-  (let ((issues (gitlab-list-all-issues)))
-    (mapcar (lambda (i)
-              (cons (format "[%s] %s [%s]"
-                            (assoc-default 'id i)
-                            (propertize (assoc-default 'title i)
-                                        'face
-                                        'helm-gitlab--title)
-                            (assoc-default 'state i))
-                    (list :project-id (assoc-default 'project_id i)
-                          :issue-id (assoc-default 'id i)
-                          :name (assoc-default 'title i))))
-            issues)))
+  (with-gitlab-auth
+   (let ((issues (gitlab-list-all-issues)))
+     (mapcar (lambda (i)
+               (cons (format "[%s] %s [%s]"
+                             (assoc-default 'id i)
+                             (propertize (assoc-default 'title i)
+                                         'face
+                                         'helm-gitlab--title)
+                             (assoc-default 'state i))
+                     (list :project-id (assoc-default 'project_id i)
+                           :issue-id (assoc-default 'id i)
+                           :name (assoc-default 'title i))))
+             issues))))
 
 
 (defun helm-gitlab--issue-browse-link (cand)

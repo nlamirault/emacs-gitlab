@@ -26,7 +26,7 @@
 
 ;;; Commentary:
 
-;; Provides a Helm interface to Gitlab
+;; Provides an Ivy interface to Gitlab
 
 
 ;;; Code:
@@ -43,6 +43,14 @@
   :group 'gitlab
   :link '(url-link :tag "Github" "https://github.com/nlamirault/emacs-gitlab")
   :link '(emacs-commentary-link :tag "Commentary" "emacs-gitlab"))
+
+
+(defface ivy-gitlab--title
+  '((((class color) (background light)) :foreground "red" :weight semi-bold)
+    (((class color) (background dark)) :foreground "green" :weight semi-bold))
+  "Face of Gitlab information"
+  :group 'ivy-gitlab)
+
 
 ;; Gitlab library
 
@@ -64,7 +72,7 @@
               'gitlab-projects-alist
               (cons (format "%s" (propertize (assoc-default 'name p)
                                              'face
-                                             'helm-gitlab--title))
+                                             'ivy-gitlab--title))
                     (list :page (assoc-default 'web_url p)
                           :name (assoc-default 'name p)
                           :project-id (assoc-default 'id p)))))
@@ -83,7 +91,7 @@
                             (assoc-default 'id i)
                             (propertize (assoc-default 'title i)
                                         'face
-                                        'helm-gitlab--title)
+                                        'ivy-gitlab--title)
                             (assoc-default 'state i))
                     (list :project-id (assoc-default 'project_id i)
                           :issue-id (assoc-default 'id i)

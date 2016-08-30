@@ -57,6 +57,7 @@
 
 (require 'gitlab-version)
 (require 'gitlab-api)
+(require 'gitlab-browse)
 (require 'gitlab-http)
 (require 'gitlab-utils)
 (require 'gitlab-session)

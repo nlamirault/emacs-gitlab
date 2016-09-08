@@ -67,12 +67,13 @@ ISSUE-ID : The ID of a project issue"
             "/issues/"
             issue-id))
 
-(defun gitlab-list-project-issues (project-id &optional page per-page)
+(defun gitlab-list-project-issues (project-id &optional page per-page params)
   "Get a list of project issues.
 PROJECT-ID : The ID of a project
 PAGE: current page number
-PER-PAGE: number of items on page max 100"
-  (let ((params '()))
+PER-PAGE: number of items on page max 100
+PARAMS: an alist for query parameters. Exple: '((state . \"opened\"))"
+  (let ((params params))
     (when page
       (add-to-list 'params (cons 'per_page (number-to-string per-page))))
     (when per-page

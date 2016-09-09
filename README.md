@@ -70,7 +70,7 @@ You can install emacs-gitlab manually by placing it on your `load-path` and
 
 * Setup your Gitlab configurations :
 
-        $ (setq gitlab-host "http://mygitlab.com"
+        $ (setq gitlab-host "https://gitlab.com"
                 gitlab-username "foo"
                 gitlab-password "bar")
 

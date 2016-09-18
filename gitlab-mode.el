@@ -132,7 +132,7 @@
 
 
 (defun gitlab-describe-project (&optional button)
-  "Describe the current pproject.
+  "Describe the current project.
 If optional arg BUTTON is non-nil, describe its associated project."
   (interactive)
   (let ((project (gitlab-get-project (tabulated-list-get-id))))

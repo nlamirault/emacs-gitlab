@@ -148,7 +148,7 @@ If optional arg BUTTON is non-nil, describe its associated project."
   (let ((project (gitlab-get-project (tabulated-list-get-id))))
     (if project
 	(progn
-	  (pop-to-buffer "*Gitlab issues*" nil)
+	  (pop-to-buffer (format "*Gitlab issues [%s]*" (assoc-default 'path_with_namespace project)) nil)
 	  (gitlab-issues-mode)
 	  (setq tabulated-list-entries
 		(create-issues-entries (gitlab-list-project-issues (assoc-default 'id project))))

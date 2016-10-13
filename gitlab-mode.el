@@ -141,6 +141,22 @@ If optional arg BUTTON is non-nil, describe its associated project."
       (user-error "No project here"))))
 
 
+(defun gitlab-issues-for-project (&optional button)
+  "Describe the current pproject.
+If optional arg BUTTON is non-nil, describe its associated project."
+  (interactive)
+  (let ((project (gitlab-get-project (tabulated-list-get-id))))
+    (if project
+	(progn
+	  (pop-to-buffer (format "*Gitlab issues [%s]*" (assoc-default 'path_with_namespace project)) nil)
+	  (gitlab-issues-mode)
+	  (setq tabulated-list-entries
+		(create-issues-entries (gitlab-list-project-issues (assoc-default 'id project))))
+	  (tabulated-list-print t)
+	  (tabulated-list-sort 1))
+      (user-error "No project here"))))
+
+
 (defun gitlab-show-projects ()
   "Show Gitlab projects."
   (interactive)
@@ -210,6 +226,8 @@ If optional arg BUTTON is non-nil, describe its associated project."
     (define-key map (kbd "d") 'gitlab-describe-project)
     map)
   "Keymap for `gitlab-projects-mode' major mode.")
+
+(define-key gitlab-projects-mode-map (kbd "i") 'gitlab-issues-for-project)
 
 (define-derived-mode gitlab-projects-mode tabulated-list-mode "Gitlab projects"
   "Major mode for browsing Gitlab projects."

@@ -37,8 +37,8 @@
 
 ;; Core
 
-(defun print-current-line-id ()
-  "Display current project."
+(defun print-current-project-id ()
+  "Display current project id."
   (interactive)
   (message (concat "Current ID is: " (tabulated-list-get-id))))
 
@@ -146,21 +146,20 @@ If optional arg BUTTON is non-nil, describe its associated project."
       (user-error "No project here"))))
 
 
-(defun gitlab-issues-for-project (&optional button)
-  "Describe the current pproject.
-If optional arg BUTTON is non-nil, describe its associated project."
+
+(defun gitlab-issues-for-project (&optional project-id)
+  "From projects buffer, opens issues buffer for project at point."
   (interactive)
-  (let ((project (gitlab-get-project (tabulated-list-get-id))))
+  (let ((project (gitlab-get-project (or project-id (tabulated-list-get-id)))))
     (if project
 	(progn
-	  (pop-to-buffer (format "*Gitlab issues [%s]*" (assoc-default 'path_with_namespace project)) nil)
+	  (pop-to-buffer "*Gitlab issues*" nil)
 	  (gitlab-issues-mode)
 	  (setq tabulated-list-entries
 		(create-issues-entries (gitlab-list-project-issues (assoc-default 'id project))))
 	  (tabulated-list-print t)
 	  (tabulated-list-sort 1))
       (user-error "No project here"))))
-
 
 (defun gitlab-show-projects ()
   "Show Gitlab projects."
@@ -174,7 +173,6 @@ If optional arg BUTTON is non-nil, describe its associated project."
 (defun create-projects-entries (projects)
   "Create entries for 'tabulated-list-entries from PROJECTS."
   (mapcar (lambda (p)
-
             (let ((id (number-to-string (assoc-default 'id p)))
                   (owner (if (assoc-default 'owner p)
                              (assoc-default 'owner p)
@@ -195,6 +193,21 @@ If optional arg BUTTON is non-nil, describe its associated project."
   (interactive)
   (browse-url (assoc-default 'web_url (tabulated-list-get-id))))
 
+(defun gitlab-close-issue ()
+  "Close issue at point."
+  (interactive)
+  (let ((issue (tabulated-list-get-id)))
+    (gitlab-edit-issue (assoc-default 'project_id issue) (assoc-default 'id issue)
+                       nil nil nil nil nil "close")
+    (gitlab-issues-for-project (assoc-default 'project_id issue))))
+
+(defun gitlab-open-issue ()
+  "Reopen issue at point."
+  (interactive)
+  (let ((issue (tabulated-list-get-id)))
+    (gitlab-edit-issue (assoc-default 'project_id issue) (assoc-default 'id issue)
+                       nil nil nil nil nil "reopen")
+    (gitlab-issues-for-project (assoc-default 'project_id issue))))
 
 (defun create-issues-entries (issues)
   "Create entries for 'tabulated-list-entries from ISSUES."
@@ -226,7 +239,7 @@ If optional arg BUTTON is non-nil, describe its associated project."
 
 (defvar gitlab-projects-mode-map
   (let ((map (make-keymap)))
-    (define-key map (kbd "v") 'print-current-line-id)
+    (define-key map (kbd "v") 'print-current-project-id)
     (define-key map (kbd "w") 'gitlab-goto-project)
     (define-key map (kbd "d") 'gitlab-describe-project)
     map)
@@ -256,6 +269,9 @@ If optional arg BUTTON is non-nil, describe its associated project."
     (define-key map (kbd "w") 'gitlab-goto-issue)
     map)
   "Keymap for `gitlab-issues-mode' major mode.")
+
+(define-key gitlab-issues-mode-map (kbd "c") 'gitlab-close-issue)
+(define-key gitlab-issues-mode-map (kbd "o") 'gitlab-open-issue)
 
 (define-derived-mode gitlab-issues-mode tabulated-list-mode "Gitlab issues"
   "Major mode for browsing Gitlab issues."

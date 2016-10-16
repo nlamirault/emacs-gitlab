@@ -42,6 +42,11 @@
   (interactive)
   (message (concat "Current ID is: " (tabulated-list-get-id))))
 
+(defun print-current-issue-id ()
+  "Display current issue id."
+  (interactive)
+  (message (format "Current ID is: %d" (assoc-default 'id (tabulated-list-get-id)))))
+
 (defun project-make-button (text &rest props)
   "Make button with TEXT propertized with PROPS."
   (let ((button-text (if (display-graphic-p)
@@ -188,15 +193,15 @@ If optional arg BUTTON is non-nil, describe its associated project."
 (defun gitlab-goto-issue ()
   "Got to web page of the issue."
   (interactive)
-  (let ((project (gitlab-get-project (elt (tabulated-list-get-entry) 1))))
-    (browse-url (concat (assoc-default 'web_url project) "/issues/" (tabulated-list-get-id)))))
+  (browse-url (assoc-default 'web_url (tabulated-list-get-id))))
+
 
 (defun create-issues-entries (issues)
   "Create entries for 'tabulated-list-entries from ISSUES."
   (mapcar (lambda (i)
             (let ((id (number-to-string (assoc-default 'id i)))
                   (author (assoc-default 'author i)))
-              (list id
+              (list i
                     (vector ;id
                      (assoc-default 'state i)
                      (format "%s" (assoc-default 'project_id i))
@@ -247,7 +252,7 @@ If optional arg BUTTON is non-nil, describe its associated project."
 
 (defvar gitlab-issues-mode-map
   (let ((map (make-keymap)))
-    (define-key map (kbd "v") 'print-current-line-id)
+    (define-key map (kbd "v") 'print-current-issue-id)
     (define-key map (kbd "w") 'gitlab-goto-issue)
     map)
   "Keymap for `gitlab-issues-mode' major mode.")

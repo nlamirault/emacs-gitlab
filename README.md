@@ -95,6 +95,15 @@ You can install emacs-gitlab manually by placing it on your `load-path` and
 
 [issues](var/emacs-gitlab-0.3-helm-issues.png)
 
+* Open current issue:
+
+        $ M-x gitlab-open-issue
+        $ o
+
+* Close current issue:
+
+        $ M-x gitlab-close-issue
+        $ c
 
 ## Development
 

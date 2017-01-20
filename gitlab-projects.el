@@ -124,6 +124,14 @@ Sorted from newest to latest."
               "/issues/"
               (number-to-string issue-id))))
 
+(defun gitlab-list-project-labels (project-id)
+  "Get the labels for the project identified by PROJECT-ID."
+  (perform-gitlab-request "GET"
+                          (format "projects/%s/labels"
+                                  (url-hexify-string
+                                   (format "%s" project-id)))
+                          nil
+                          200))
 
 
 (provide 'gitlab-projects)

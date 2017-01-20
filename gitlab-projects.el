@@ -133,6 +133,11 @@ Sorted from newest to latest."
                           nil
                           200))
 
+(defun gitlab-list-project-labels-names (project-id)
+  "Get a list of the labels' names."
+  (let ((labels (gitlab-list-project-labels project-id)))
+    (--map (assoc-default 'name it) labels)))
+
 
 (provide 'gitlab-projects)
 ;;; gitlab-projects.el ends here

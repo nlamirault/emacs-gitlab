@@ -89,7 +89,15 @@ You can install emacs-gitlab manually by placing it on your `load-path` and
 
         $ M-x helm-gitlab-issues
 
-[issues](var/emacs-gitlab-0.3-helm-issues.png)
+Ask the api: (where project-id can be an int or a string of the form "username/projectname".
+
+* issues:
+
+![issues](var/emacs-gitlab-0.3-helm-issues.png)
+
+see `gitlab-list-project-issues (project-id &optional page per-page params)`, where params can be `'((state . \"opened\"))` to list the open issues
+
+* labels: `gitlab-list-project-labels`
 
 
 ## Development

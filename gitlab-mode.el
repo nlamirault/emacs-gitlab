@@ -174,13 +174,17 @@ If optional arg BUTTON is non-nil, describe its associated project."
                   (owner (if (assoc-default 'owner p)
                              (assoc-default 'owner p)
                            (assoc-default 'namespace p)))
-                  (namespace (assoc-default 'namespace p)))
+                  (namespace (assoc-default 'namespace p))
+                  (description (if (eq (assoc-default 'description p) nil)
+                                   ""
+                                 (assoc-default 'description p))))
+
               (list id
                     (vector ;id
                             (assoc-default 'name p)
                             (assoc-default 'name owner)
                             (assoc-default 'name namespace)
-                            (replace-regexp-in-string "\^M\\|\n" " " (assoc-default 'description p))))))
+                            (replace-regexp-in-string "\^M\\|\n" " " description)))))
           projects))
 
 ;; Issues

@@ -33,7 +33,7 @@
 (defvar gitlab-token-id nil
   "The Gitlab tokenID to perform HTTP requests.")
 
-(defconst gitlab-api-version "v3"
+(defconst gitlab-api-version "v4"
   "The Gitlab API version.")
 
 (defun gitlab--get-host ()

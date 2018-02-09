@@ -24,12 +24,6 @@
 (defvar gitlab-host nil
   "The Gitlab API endpoint.")
 
-(defvar gitlab-username nil
-  "The Gitlab username.")
-
-(defvar gitlab-password nil
-  "The Gitlab account's password.")
-
 (defvar gitlab-token-id nil
   "The Gitlab tokenID to perform HTTP requests.")
 
@@ -42,20 +36,6 @@ Use `gitlab-host' or GITLAB_HOST environment variable"
   (if gitlab-host
       gitlab-host
     (getenv "GITLAB_HOST")))
-
-(defun gitlab--get-username ()
-  "Retrieve the gitlab username.
-Use `gitlab-username' or GITLAB_USERNAME environment variable"
-  (if gitlab-username
-      gitlab-username
-    (getenv "GITLAB_USERNAME")))
-
-(defun gitlab--get-password ()
-  "Retrieve the Gitlab password.
-Use `gitlab-password' or GITLAB_PASSWORD environment variable"
-  (if gitlab-password
-      gitlab-password
-    (getenv "GITLAB_PASSWORD")))
 
 (defun gitlab--get-token-id ()
   "Retrieve the Gitlab token ID.

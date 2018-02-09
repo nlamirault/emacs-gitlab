@@ -30,33 +30,12 @@
 
 
 ;;;###autoload
-(defun gitlab-login ()
-  "Open a session.
-If it works, return the private token to perform HTTP request to Gitlab."
-  (interactive)
-  (let ((response
-         (gitlab--perform-post-request
-          "session"
-          (list (cons "login" (gitlab--get-username))
-                (cons "password" (gitlab--get-password))))))
-    (if (= 201 (request-response-status-code response))
-        (progn
-          (message "Set Gitlab TokenID")
-          (let ((id (assoc-default 'private_token
-                                   (request-response-data response))))
-            (setq gitlab-token-id id)))
-      (error
-       (signal 'gitlab-http-error
-               (list (request-response-status-code response)
-                     (request-response-data response)))))))
-
 (defmacro with-gitlab-auth (&rest body)
-  "Macro which check authentication token.
-If not, perform a request to Gitlab to login.
-Then executes `BODY'."
+  "Macro which checks authentication token. If not defined, signals an
+error.  Otherwise, executes `BODY'."
   `(progn
      (when (s-blank? gitlab-token-id)
-       (gitlab-login))
+       (error "You must set gitlab-token-id to your private token."))
      ,@body))
 
 

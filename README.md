@@ -71,13 +71,7 @@ You can install emacs-gitlab manually by placing it on your `load-path` and
 * Setup your Gitlab configurations :
 
         $ (setq gitlab-host "https://gitlab.com"
-                gitlab-username "foo"
-                gitlab-password "bar"
-                gitlab-token-id "baz")
-
-* Open a session :
-
-        $ M-x gitlab-login
+                gitlab-token-id "foo")
 
 * Show user's projects with helm interface:
 
@@ -125,8 +119,6 @@ Install it and retrieve dependencies :
         $ cat $HOME/.emacs-gitlab.rc
         #!/bin/bash
         export GITLAB_HOST="https://gitlab.com"
-        export GITLAB_USERNAME="yourusername"
-        export GITLAB_PASSWORD="yourpassword"
         export GITLAB_TOKEN_ID="yourtokenid"
         export GITLAB_PROJECT_ID=111222
         export GITLAB_PROJECT_NAME="myproject"

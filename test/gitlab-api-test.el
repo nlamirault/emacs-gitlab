@@ -29,32 +29,6 @@
           (should (string= value (funcall fct))))
       (setenv var backup))))
 
-(ert-deftest test-gitlab-get-username-from-environment ()
-  :tags '(api)
-  (with-test-sandbox
-   (check-gitlab-settings-from-environment
-    "GITLAB_USERNAME" "foo" 'gitlab--get-username)))
-
-(ert-deftest test-gitlab-get-username-from-conf ()
-  :tags '(api)
-  (with-test-sandbox
-   (let* ((value "foo")
-          (gitlab-username value))
-     (should (string= value (gitlab--get-username))))))
-
-(ert-deftest test-gitlab-get-password-from-environment ()
-  :tags '(api)
-  (with-test-sandbox
-   (check-gitlab-settings-from-environment
-    "GITLAB_PASSWORD" "bar" 'gitlab--get-password)))
-
-(ert-deftest test-gitlab-get-password-from-conf ()
-  :tags '(api)
-  (with-test-sandbox
-   (let* ((value "bar")
-          (gitlab-password value))
-     (should (string= value (gitlab--get-password))))))
-
 (ert-deftest test-gitlab-get-host-from-environment ()
   :tags '(api)
   (with-test-sandbox

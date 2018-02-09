@@ -89,7 +89,7 @@
 (defmacro with-gitlab-session (&rest body)
   "Evaluate BODY in a Gitlab session."
   `(progn
-     (gitlab-login)
+     (setq gitlab-token-id (getenv "GITLAB_TOKEN_ID"))
      ,@body
      (setq gitlab-token-id nil)))
 

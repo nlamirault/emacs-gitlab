@@ -1,0 +1,16 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: ubuntu:16.04
+    steps:
+      - checkout
+      - run:
+          name: Install tools
+          command: |
+            apt-get update
+            apt-get install -qq git curl python emacs make
+            curl -fsSkL "https://raw.github.com/cask/cask/master/go" | python
+      - run:
+          name: Build
+          command: PATH="${HOME}/.cask/bin:$PATH" make test

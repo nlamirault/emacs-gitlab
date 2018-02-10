@@ -28,8 +28,7 @@
   :tags '(projects)
   (with-test-sandbox
    (let ((response (gitlab-list-projects)))
-     (should (not (s-equals? response
-                             "Error (gitlab): HTTP GET Error 401 on URI: projects" ))))))
+     (should (vectorp response)))))
 
 (ert-deftest test-list-projects ()
   :tags '(projects)

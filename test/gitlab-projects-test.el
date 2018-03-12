@@ -27,7 +27,8 @@
 (ert-deftest test-list-projects-without-session ()
   :tags '(projects)
   (with-test-sandbox
-   (gitlab-list-projects)))
+   (let ((response (gitlab-list-projects)))
+     (should (vectorp response)))))
 
 (ert-deftest test-list-projects ()
   :tags '(projects)

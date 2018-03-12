@@ -63,7 +63,7 @@ PER-PAGE: number of items on page max 100"
 
 (defun gitlab-list-owned-projects ()
   "Get a list of projects which are owned by the authenticated user."
-  (perform-gitlab-request "GET" "projects/owned" nil 200))
+  (perform-gitlab-request "GET" "projects" '((owned . "true")) 200))
 
 
 (defun gitlab-get-project (project-id)

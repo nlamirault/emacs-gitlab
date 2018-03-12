@@ -26,7 +26,9 @@
 (ert-deftest test-list-issues-without-session ()
   :tags '(issues)
   (with-test-sandbox
-   (should-error (gitlab-list-issues))))
+   (let ((response (gitlab-list-issues 1 20)))
+     (should (s-equals? response
+                        "Error (gitlab): HTTP GET Error 401 on URI: issues" )))))
 
 (ert-deftest test-list-issues ()
   :tags '(issues)

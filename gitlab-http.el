@@ -40,11 +40,9 @@
 
 (defun gitlab--get-headers ()
   "Return the HTTP headers for Gitlab API."
-  ;;(if (not (s-blank? gitlab-token-id))
-  (list (cons "PRIVATE-TOKEN" gitlab-token-id)
-        (cons "connection" "close")))
-    ;;nil))
-
+  (let ((headers (list (cons "connection" "close"))))
+    (if (not (s-blank? gitlab-token-id))
+        (add-to-list 'headers (cons "PRIVATE-TOKEN" gitlab-token-id)))))
 
 (defun gitlab--perform-get-request (uri params)
   "Doc string URI PARAMS."

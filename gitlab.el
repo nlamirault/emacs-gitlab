@@ -2,7 +2,7 @@
 
 ;; Author: Nicolas Lamirault <nicolas.lamirault@gmail.com>
 ;; URL: https://github.com/nlamirault/emacs-gitlab
-;; Version: 0.8.0
+;; Version: 0.9.0
 ;; Keywords: gitlab
 
 ;; Package-Requires: ((s "1.9.0") (dash "2.9.0") (pkg-info "0.5.0") (request "0.1.0"))
@@ -57,6 +57,7 @@
 
 (require 'gitlab-version)
 (require 'gitlab-api)
+(require 'gitlab-browse)
 (require 'gitlab-http)
 (require 'gitlab-utils)
 (require 'gitlab-session)

@@ -1,6 +1,6 @@
 ;;; gitlab-version-test.el --- Tests for version information
 
-;; Copyright (C) 2014, 2015 Nicolas Lamirault <nicolas.lamirault@gmail.com>
+;; Copyright (C) 2014, 2015, 2016 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License
@@ -26,7 +26,7 @@
 (ert-deftest gitlab-library-version ()
   :tags '(version)
   (with-test-sandbox
-  (should (string= "0.8.0" (gitlab--library-version)))))
+  (should (string= "0.9.0" (gitlab--library-version)))))
 
 
 (provide 'gitlab-version-test)
